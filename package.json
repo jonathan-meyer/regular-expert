@@ -1,0 +1,66 @@
+{
+  "name": "lfht",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Let's Find a Home Together",
+  "scripts": {
+    "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "start:dev": "concurrently \"npm run server:dev\" \"npm run client:dev\"",
+    "start:prod": "concurrently \"npm run server:prod\" \"npm run client:prod\"",
+    "client:dev": "react-scripts start",
+    "client:prod": "",
+    "server:dev": "nodemon --ignore 'public/*' server/index.js",
+    "server:prod": "node server/index.js"
+  },
+  "proxy": "http://localhost:3001",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jonathan-meyer/regular-expert.git"
+  },
+  "author": "Jonathan Meyer <jon@stej.com>",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/jonathan-meyer/regular-expert/issues"
+  },
+  "homepage": "https://lfht.herokuapp.com",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "bootstrap": "^4.3.1",
+    "dotenv": "^8.0.0",
+    "express": "^4.17.1",
+    "express-graphql": "^0.9.0",
+    "graphql": "^14.4.2",
+    "jquery": "^3.4.1",
+    "mongoose": "^5.6.9",
+    "morgan": "^1.9.1",
+    "popper.js": "^1.15.0",
+    "react": "^16.9.0",
+    "react-bootstrap": "^1.0.0-beta.11",
+    "react-dom": "^16.9.0",
+    "react-scripts": "^3.1.0"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "concurrently": "^4.1.1",
+    "if-env": "^1.0.4",
+    "cross-env": "^5.2.0",
+    "nodemon": "^1.19.1"
+  }
+}
