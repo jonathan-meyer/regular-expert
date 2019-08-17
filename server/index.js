@@ -1,7 +1,7 @@
 require("dotenv").config();
 
-var passport = require('passport')
-  , LocalStrategy = require('passport-local').Strategy;
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
 const path = require("path");
 const express = require("express");
 const morgan = require("morgan");
