@@ -12,7 +12,7 @@ router.get("/listing/:property_id/:listing_id", (req, res) => {
   const { property_id, listing_id } = req.params;
 
   realtor
-    .detail(listing_id, property_id)
+    .detail(property_id, listing_id)
     .then(data => {
       res.json(data);
     })

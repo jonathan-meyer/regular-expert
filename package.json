@@ -6,7 +6,8 @@
   "scripts": {
     "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "npm run test:server && react-scripts test",
+    "test:server": "jest --testPathIgnorePatterns='src'",
     "eject": "react-scripts eject",
     "start:dev": "concurrently \"npm run server:dev\" \"npm run client:dev\"",
     "start:prod": "node server",
