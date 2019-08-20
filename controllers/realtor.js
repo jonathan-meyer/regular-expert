@@ -17,7 +17,7 @@ client.on("error", err => {
   console.log(`Redis Error: ${err}`);
 });
 
-const detail = (listing_id, property_id, prop_status = "for_sale") => {
+const detail = (property_id, listing_id, prop_status = "for_sale") => {
   const params = { prop_status, listing_id, property_id };
   const key = `detail:${property_id}:${listing_id}:${prop_status}`;
 
