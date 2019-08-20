@@ -1,5 +1,6 @@
 const express = require("express");
-const { graphql, buildSchema } = require("graphql");
+
+const realtor = require("../../controllers/realtor");
 
 const router = express.Router();
 
@@ -7,25 +8,48 @@ router.get("/", (req, res) => {
   res.json({ message: "Hello API World!" });
 });
 
-// Construct a schema, using GraphQL schema language
-var schema = buildSchema(`
-  type Query {
-    hello: String
-  }
-`);
+router.get("/listing/:property_id/:listing_id", (req, res) => {
+  const { property_id, listing_id } = req.params;
 
-// The root provides a resolver function for each API endpoint
-var root = {
-  hello: () => {
-    return "Hello world!";
-  }
-};
+  realtor
+    .detail(listing_id, property_id)
+    .then(data => {
+      res.json(data);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json(err);
+    });
+});
 
-router.get("/hello", (req, res) => {
-  // Run the GraphQL query '{ hello }' and print out the response
-  graphql(schema, "{ hello }", root).then(response => {
-    res.json(response);
-  });
+router.get("/search", (req, res) => {
+  const { q } = req.query;
+
+  if (q) {
+    realtor
+      .autoComplete(q)
+      .then(data => {
+        if (data.autocomplete.length > 0) {
+          const { city, state_code } = data.autocomplete[0];
+
+          realtor
+            .listForSale(city, state_code)
+            .then(data => res.json(data))
+            .catch(err => {
+              console.log(err);
+              res.status(500).json(err);
+            });
+        } else {
+          res.sendStatus(404);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500).json(err);
+      });
+  } else {
+    res.sendStatus(400);
+  }
 });
 
 module.exports = router;
