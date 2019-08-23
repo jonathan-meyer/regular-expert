@@ -1,11 +1,10 @@
 import React, { Component } from "react";
 import Navbar from "../components/Navbar";
-import Container from '../components/Container';
-import SearchForm from '../components/SearchForm';
+import SearchForm from "../components/SearchForm";
 
 class Landing extends Component {
   state = {
-    location: '',
+    location: "",
     message: "Hey, this is the landing page!"
   };
 
@@ -22,19 +21,18 @@ class Landing extends Component {
     console.log(this.state.location);
   };
 
-
   render() {
     return (
       <div>
         <Navbar />
-        <Container>
+        <div className='container'>
           <h1>{this.state.message}</h1>
           <SearchForm
-           handleFormSubmit={this.handleFormSubmit}
-           handleInputChange={this.handleInputChange}
-           location={this.state.location}
+            location={this.state.location}
+            handleFormSubmit={this.handleFormSubmit}
+            handleInputChange={this.handleInputChange}
           />
-        </Container>
+        </div>
       </div>
     );
   }
