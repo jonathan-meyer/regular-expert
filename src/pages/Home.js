@@ -8,7 +8,7 @@ class Home extends Component {
 
   render() {
     return (
-        <h1>{this.state.message}</h1>
+      <h1>{this.state.message}</h1>
     );
   }
 }

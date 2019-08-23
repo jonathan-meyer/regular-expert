@@ -1,14 +1,41 @@
 import React, { Component } from "react";
+import Navbar from "../components/Navbar";
+import Container from '../components/Container';
+import SearchForm from '../components/SearchForm';
 
 class Landing extends Component {
   state = {
-   message: "Hey, this is the landing page!"
+    location: '',
+    message: "Hey, this is the landing page!"
+  };
+
+  handleInputChange = event => {
+    const { location, value } = event.target;
+    this.setState({
+      [location]: value
+    });
+  };
+
+  handleFormSubmit = e => {
+    e.preventDefault();
+    // this.getHomes();
+    console.log(this.state.location);
   };
 
 
   render() {
     return (
-        <h1>{this.state.message}</h1>
+      <div>
+        <Navbar />
+        <Container>
+          <h1>{this.state.message}</h1>
+          <SearchForm
+           handleFormSubmit={this.handleFormSubmit}
+           handleInputChange={this.handleInputChange}
+           location={this.state.location}
+          />
+        </Container>
+      </div>
     );
   }
 }
