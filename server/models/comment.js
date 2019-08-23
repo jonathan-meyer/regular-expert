@@ -1,32 +1,29 @@
 const mongoose = require("mongoose");
+
 const Schema = mongoose.Schema;
 
 const CommentSchema = new Schema({
-  ownerId: {
-    type: String,
-    trim: true,
-    required: "Owner ID is required.",
+  content: { type: String, trim: true, required: "What no Comment?" },
+
+  owner: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    required: "you need an UserID"
   },
-  groupId: {
-    type: String,
-    trim: true,
-    required: "Group ID is required.",
+  group: {
+    type: Schema.Types.ObjectId,
+    ref: "Group",
+    required: "you need a GroupID"
   },
-  listingId: {
-    type: String,
-    trim: true,
-    required: "Listing ID is required.",
+  listing: {
+    type: Schema.Types.ObjectId,
+    ref: "Listing",
+    required: "you need a ListingID"
   },
-  content: {
-    type: String,
-    trim: true,
-    required: "Comment cannot be empty.",
-  },
-  createdDate: {
-    type: Date,
-    default: Date.now,
-  },
+
+  created: { type: Date, default: Date.now }
 });
 
 const Comment = mongoose.model("Comment", CommentSchema);
+
 module.exports = Comment;
