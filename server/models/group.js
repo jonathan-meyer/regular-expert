@@ -2,21 +2,26 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const GroupSchema = new Schema({
-ownerId: {
-    type: String,
-    trim: true,
-    required: "Owner ID is required.",
+  content: {type: String, trim: true, required: ""},
+  // owner, reference the user model
+owner: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    required: "you need an UserID",
     },
-groupName: {
-    type: String,
+group: {
+    type: Schema.Types.ObjectId,
+    ref: "Group",
     required: "Group Name is required.",
 },
 type: {
-    type: String,
+    type: Schema.Types.ObjectId,
+    ref: "Type",
     required: "Type is required.",
     default: "General",
   },
-numberUsers: {
+// check this
+  numberUsers: {
     type: Number,
   },  
 lastModifiedDate: {
