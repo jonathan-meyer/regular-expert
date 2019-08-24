@@ -8,40 +8,35 @@ owner: {
     ref: "User",
     required: "User ID is required.",
     },
+    group: {
+      type: Schema.Types.ObjectId,
+      ref: "Group",
+      required: "Group Id is required"
+    },
 street: {
-    type: Schema.Types.ObjectId,
-    ref: "Listing",
+    type: String,
     required: "Street is required.",
 },
 city: {
-    type: Schema.Types.ObjectId,
-    ref: "Listing",
+    type: String,
     required: "City is required.",
   },
 state: {
-    type: Schema.Types.ObjectId,
-    ref: "Listing",
+    type: String,
     required: "State is required.",
   },
-postalCode: {
-    type: Schema.Types.ObjectId,
-    ref: "Listing",
+zip: {
+    type: String,
     required: "Postal Code is required.",
   },
 country: {
-    type: Schema.Types.ObjectId,
-    ref: "Listing",
-    required: "Country is required.",
+    type: String,
+    default: "USA",
   },
 description: {
-    type: Schema.Types.ObjectId,
-    ref: "Listing",
+    type: String,
     required: "Description is required.",
   },
-// createdDate: {
-//     type: Date,
-//     default: Date.now(),
-//   },
   created: { type: Date, default: Date.now },
 comments: [
     {

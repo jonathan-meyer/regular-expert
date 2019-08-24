@@ -9,21 +9,11 @@ owner: {
     ref: "User",
     required: "you need an UserID",
     },
-group: {
-    type: Schema.Types.ObjectId,
-    ref: "Group",
+name: {
+    type: String,
     required: "Group Name is required.",
 },
-type: {
-    type: Schema.Types.ObjectId,
-    ref: "Type",
-    required: "Type is required.",
-    default: "General",
-  },
-// check this
-  numberUsers: {
-    type: Number,
-  },  
+ 
 lastModifiedDate: {
     type: Date,
     default: Date.now(),
@@ -34,12 +24,7 @@ users: [
       ref: "user",
     },
   ],
-listings: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "listing",
-    },
-  ],
+
 });
 
 const Group = mongoose.model("Group", GroupSchema);

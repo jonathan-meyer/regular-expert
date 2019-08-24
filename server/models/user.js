@@ -4,29 +4,24 @@ const Schema = mongoose.Schema;
 const UserSchema = new Schema({
   content: { type: String, trim: true, required: "What no Comment?" },
   firstName: {
-    type: Schema.Types.objectId,
-    ref: "User",
+    type: String,
     required: "First Name is required.",
   },
   lastName: {
-    type: Schema.Types.objectId,
-    trim: true,
+    type: String,
     required: "Last Name is required.",
   },
   email: {
-    type: Schema.Types.objectId,
+    type: String,
     ref: "User",
     unique: true,
     required: "Email is required.",
   },
   password: {
-    type: Schema.Types.ObjectId,
-    trim: true,
+    type: String,
     required: "Password is required.",
   },
-  // createdAt: {
-  //   type: Date,
-  //   default: Date.now(),
+  
   created: { type: Date, default: Date.now },
   
   groups: [
