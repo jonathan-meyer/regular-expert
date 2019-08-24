@@ -1,24 +1,23 @@
 import React, { Component } from "react";
 import Navbar from "../components/Navbar";
 import SearchForm from "../components/SearchForm";
+import API from "../utils/API";
 
 class Landing extends Component {
   state = {
-    location: "",
+    location: "Portsmouth, NH",
     message: "Hey, this is the landing page!"
   };
 
   handleInputChange = event => {
-    const { location, value } = event.target;
-    this.setState({
-      [location]: value
-    });
+    this.setState({ location: event.target.value });
   };
 
   handleFormSubmit = e => {
     e.preventDefault();
-    // this.getHomes();
-    console.log(this.state.location);
+    const lctn = this.state.location;
+    API.searchListings(lctn).then(res => { console.log(res) });
+    console.log(lctn);
   };
 
   render() {
