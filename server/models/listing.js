@@ -2,45 +2,52 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const ListingSchema = new Schema({
-ownerId: {
-    type: String,
-    trim: true,
-    required: "Owner ID is required.",
-    },
-street: {
-    type: String,
-    required: "Street is required.",
-},
-city: {
-    type: String,
-    required: "City is required.",
+  owner: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    required: "User ID is required."
   },
-state: {
-    type: String,
-    required: "State is required.",
+
+  group: {
+    type: Schema.Types.ObjectId,
+    ref: "Group",
+    required: "Group Id is required"
   },
-postalCode: {
+
+  street: {
     type: String,
-    required: "Postal Code is required.",
+    required: "Street is required."
   },
-country: {
+
+  city: {
     type: String,
-    required: "Country is required.",
+    required: "City is required."
   },
-description: {
+
+  state: {
     type: String,
-    required: "Description is required.",
+    required: "State is required."
   },
-createdDate: {
+
+  zip: {
+    type: String,
+    required: "Postal Code is required."
+  },
+
+  country: {
+    type: String,
+    default: "USA"
+  },
+
+  description: {
+    type: String,
+    required: "Description is required."
+  },
+
+  created: {
     type: Date,
-    default: Date.now(),
-  },
-comments: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "comment",
-    },
-  ],
+    default: Date.now
+  }
 });
 
 const Listing = mongoose.model("Listing", ListingSchema);
