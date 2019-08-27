@@ -1,55 +1,14 @@
 const express = require("express");
 
-const realtor = require("../../controllers/realtor");
+const crud = require("../../controllers/crud");
 
 const router = express.Router();
 
-router.get("/", (req, res) => {
-  res.json({ message: "Hello API World!" });
-});
+router.use("/realtor", require("./realtor"));
 
-router.get("/listing/:property_id/:listing_id", (req, res) => {
-  const { property_id, listing_id } = req.params;
-
-  realtor
-    .detail(property_id, listing_id)
-    .then(data => {
-      res.json(data);
-    })
-    .catch(err => {
-      console.log(err);
-      res.status(500).json(err);
-    });
-});
-
-router.get("/search", (req, res) => {
-  const { q } = req.query;
-
-  if (q) {
-    realtor
-      .autoComplete(q)
-      .then(data => {
-        if (data.autocomplete.length > 0) {
-          const { city, state_code } = data.autocomplete[0];
-
-          realtor
-            .listForSale(city, state_code)
-            .then(data => res.json(data))
-            .catch(err => {
-              console.log(err);
-              res.status(500).json(err);
-            });
-        } else {
-          res.sendStatus(404);
-        }
-      })
-      .catch(err => {
-        console.log(err);
-        res.status(500).json(err);
-      });
-  } else {
-    res.sendStatus(400);
-  }
-});
+router.use("/comment", crud(require("../models/comment")));
+router.use("/group", crud(require("../models/group")));
+router.use("/listing", crud(require("../models/listing")));
+router.use("/user", crud(require("../models/user")));
 
 module.exports = router;
