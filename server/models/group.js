@@ -2,39 +2,28 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const GroupSchema = new Schema({
-ownerId: {
+  name: {
     type: String,
-    trim: true,
-    required: "Owner ID is required.",
-    },
-groupName: {
-    type: String,
-    required: "Group Name is required.",
-},
-type: {
-    type: String,
-    required: "Type is required.",
-    default: "General",
+    required: "Group Name is required."
   },
-numberUsers: {
-    type: Number,
-  },  
-lastModifiedDate: {
+
+  owner: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    required: "you need an UserID"
+  },
+
+  users: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "user"
+    }
+  ],
+
+  created: {
     type: Date,
-    default: Date.now(),
-  },
-users: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "user",
-    },
-  ],
-listings: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "listing",
-    },
-  ],
+    default: Date.now()
+  }
 });
 
 const Group = mongoose.model("Group", GroupSchema);
