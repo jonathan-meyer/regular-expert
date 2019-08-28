@@ -2,11 +2,14 @@ require("dotenv").config();
 
 const mongoose = require("mongoose");
 const User = require("../server/models/user");
+const crypto = require("crypto");
+
+const buf = Buffer.alloc(10);
 
 const testUser = {
   firstName: "Fred",
   lastName: "Flintstone",
-  email: "no@this.time",
+  email: `${crypto.randomFillSync(buf).toString("hex")}@this.time`,
   password: "Open Sesame"
 };
 
@@ -22,12 +25,12 @@ describe("Users", () => {
   });
 
   it("create", () => {
-    // return expect(User.create(testUser)).resolves.toEqual(
-    //   expect.objectContaining({
-    //     ...testUser,
-    //     createdAt: expect.any(Date)
-    //   })
-    // );
+    return expect(User.create(testUser)).resolves.toEqual(
+      expect.objectContaining({
+        ...testUser,
+        created: expect.any(Date)
+      })
+    );
   });
 
   it("find", () => {
