@@ -1,8 +1,10 @@
 import React, { Component } from "react";
-import Form from 'react-bootstrap/Form';
-import ListGroup from 'react-bootstrap/ListGroup';
-import Listing from '../components/Listing';
-import Navbar from "../components/Navbar";
+
+import Form from "react-bootstrap/Form";
+import ListGroup from "react-bootstrap/ListGroup";
+
+import Listing from "../components/Listing";
+
 import API from "../utils/API";
 
 class Landing extends Component {
@@ -15,7 +17,7 @@ class Landing extends Component {
 
   changeHandler(e) {
     const { id, value } = e.target;
-    this.setState({[id]: value});
+    this.setState({ [id]: value });
   }
 
   handleFormSubmit = e => {
@@ -26,43 +28,36 @@ class Landing extends Component {
 
     API.searchListings(query)
       .then(data => {
-        console.log({data});
-        this.setState({loading: false, listings: data.data.listings})
+        console.log({ data });
+        this.setState({ loading: false, listings: data.data.listings });
       })
       .catch(err => {
-        this.setState({loading: false});
-        console.log({err});
+        this.setState({ loading: false });
+        console.log({ err });
       });
   };
-
-  componentDidMount() {
-    // API.searchListings();
-  }
 
   render() {
     const { query, listings, loading } = this.state;
 
     return (
       <div>
-        <Navbar />
-        <div>
-          <h1>{this.state.message}</h1>
-          <Form onSubmit={e => this.handleFormSubmit(e)}>
-            <Form.Control
+        <h1>{this.state.message}</h1>
+        <Form onSubmit={e => this.handleFormSubmit(e)}>
+          <Form.Control
             Location={this.state.location}
             type="text"
             id="query"
             value={query}
             onChange={e => this.changeHandler(e)}
-            ></Form.Control>
-          </Form>
-          {loading && <span>loading...</span>}
-          <ListGroup>
-            {listings.map((listing, key) => (
-              <Listing key={key} { ...listing } />
-            ))}
-          </ListGroup>
-        </div>
+          ></Form.Control>
+        </Form>
+        {loading && <span>loading...</span>}
+        <ListGroup>
+          {listings.map((listing, key) => (
+            <Listing key={key} {...listing} />
+          ))}
+        </ListGroup>
       </div>
     );
   }
