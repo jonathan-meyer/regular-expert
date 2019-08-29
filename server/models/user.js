@@ -1,6 +1,9 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const bcrypt = require("bcryptjs");
+mongoose.promise = Promise;
 
+// Define userSchema
 const UserSchema = new Schema({
   firstName: {
     type: String,
@@ -12,11 +15,11 @@ const UserSchema = new Schema({
     required: "Last Name is required."
   },
 
-  email: {
+  username: {
     type: String,
     ref: "User",
     unique: true,
-    required: "Email is required."
+    required: "Username is required."
   },
 
   password: {
@@ -27,6 +30,29 @@ const UserSchema = new Schema({
   created: {
     type: Date,
     default: Date.now
+  }
+});
+
+// Define schema methods
+UserSchema.methods = {
+  checkPassword: function(inputPassword) {
+    return bcrypt.compareSync(inputPassword, this.password);
+  },
+  hashPassword: plainTextPassword => {
+    return bcrypt.hashSync(plainTextPassword, 10);
+  }
+};
+
+// Define hooks for pre-saving
+UserSchema.pre("save", function(next) {
+  if (!this.password) {
+    console.log("models/user.js =======NO PASSWORD PROVIDED=======");
+    next();
+  } else {
+    console.log("models/user.js hashPassword in pre save");
+
+    this.password = this.hashPassword(this.password);
+    next();
   }
 });
 
