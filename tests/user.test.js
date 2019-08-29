@@ -3,14 +3,14 @@ require("dotenv").config();
 const mongoose = require("mongoose");
 const User = require("../server/models/user");
 const crypto = require("crypto");
+const bcrypt = require("bcryptjs");
 
 const buf = Buffer.alloc(10);
 
 const testUser = {
   firstName: "Fred",
   lastName: "Flintstone",
-  username: `${crypto.randomFillSync(buf).toString("hex")}@this.time`,
-  password: "Open Sesame"
+  username: `${crypto.randomFillSync(buf).toString("hex")}@this.time`
 };
 
 describe("Users", () => {
@@ -25,7 +25,9 @@ describe("Users", () => {
   });
 
   it("create", () => {
-    return expect(User.create(testUser)).resolves.toEqual(
+    return expect(
+      User.create({ ...testUser, password: "password" })
+    ).resolves.toEqual(
       expect.objectContaining({
         ...testUser,
         created: expect.any(Date)
