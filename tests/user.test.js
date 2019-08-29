@@ -9,7 +9,7 @@ const buf = Buffer.alloc(10);
 const testUser = {
   firstName: "Fred",
   lastName: "Flintstone",
-  email: `${crypto.randomFillSync(buf).toString("hex")}@this.time`,
+  username: `${crypto.randomFillSync(buf).toString("hex")}@this.time`,
   password: "Open Sesame"
 };
 
