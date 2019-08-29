@@ -4,7 +4,7 @@ import Form from "react-bootstrap/Form";
 import ListGroup from "react-bootstrap/ListGroup";
 
 import Listing from "../components/Listing";
-
+import LoginModal from '../components/Modal';
 import API from "../utils/API";
 
 class Landing extends Component {
@@ -53,6 +53,9 @@ class Landing extends Component {
           ></Form.Control>
         </Form>
         {loading && <span>loading...</span>}
+        <LoginModal 
+          isOpen="true"
+        />
         <ListGroup>
           {listings.map((listing, key) => (
             <Listing key={key} {...listing} />
