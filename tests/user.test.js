@@ -3,30 +3,44 @@ require("dotenv").config();
 const mongoose = require("mongoose");
 const User = require("../server/models/user");
 const crypto = require("crypto");
-const bcrypt = require("bcryptjs");
 
-const buf = Buffer.alloc(10);
+// create a random password
+const password = crypto.randomBytes(10).toString("hex");
+
+// create a random username
+const username = crypto.randomBytes(10).toString("hex");
 
 const testUser = {
   firstName: "Fred",
-  lastName: "Flintstone",
-  username: `${crypto.randomFillSync(buf).toString("hex")}@this.time`
+  lastName: "Flintstone"
 };
 
 describe("Users", () => {
-  beforeEach(() => {
+  beforeAll(() => {
     return mongoose.connect(process.env.MONGODB_TEST_URI, {
       useNewUrlParser: true
     });
   });
 
-  afterEach(() => {
+  afterAll(() => {
     return mongoose.disconnect();
+  });
+
+  it("create without password", () => {
+    return expect(User.create({ ...testUser, username })).rejects.toEqual(
+      expect.objectContaining({
+        errors: expect.objectContaining({
+          password: expect.objectContaining({
+            message: expect.stringContaining("Password is required.")
+          })
+        })
+      })
+    );
   });
 
   it("create", () => {
     return expect(
-      User.create({ ...testUser, password: "password" })
+      User.create({ ...testUser, username, password })
     ).resolves.toEqual(
       expect.objectContaining({
         ...testUser,
@@ -39,5 +53,11 @@ describe("Users", () => {
     return expect(User.findOne(testUser)).resolves.toEqual(
       expect.objectContaining(testUser)
     );
+  });
+
+  it("login", () => {
+    return User.findOne({ username }).then(data => {
+      expect(data.checkPassword(password)).toEqual(true);
+    });
   });
 });
