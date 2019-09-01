@@ -44,7 +44,7 @@ class Landing extends Component {
 
     return (
       <div>
-        <Navbar />
+        
         <div>
           <h1>{this.state.message}</h1>
           <Form onSubmit={e => this.handleFormSubmit(e)}>

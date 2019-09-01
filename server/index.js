@@ -33,7 +33,8 @@ passport.deserializeUser((user, cb) => {
 // Local Strategy for Passport
 passport.use(
   new LocalStrategy(function(username, password, done) {
-    User.findOne({ username: username }, function(err, user) {
+    // eslint-disable-next-line no-undef
+    db.User.findOne({ username: username }, function(err, user) {
       if (err) {
         return done(err);
       }

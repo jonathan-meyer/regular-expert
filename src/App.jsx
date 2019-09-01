@@ -4,7 +4,7 @@ import Group from "./pages/Group";
 import Groups from "./pages/Groups";
 import Landing from "./pages/Landing";
 import API from "./utils/API";
-
+import Navbar from "./components/Navbar"
 class App extends React.Component {
   state = {};
 
@@ -16,7 +16,9 @@ class App extends React.Component {
 
   render() {
     return (
+      
       <Router>
+        <Navbar />
         <div>
           <Switch>
             <Route exact path="/" component={Landing} />
