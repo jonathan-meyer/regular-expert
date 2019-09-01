@@ -26,6 +26,9 @@ function NavBar({ user }) {
             <Nav.Link as={Link} to="/">
               Home
             </Nav.Link>
+            <Nav.Link as={Link} to="/group">
+              Group
+            </Nav.Link>
             <Nav.Link as={Link} to="/groups">
               Groups
             </Nav.Link>
@@ -43,7 +46,7 @@ function NavBar({ user }) {
             ) : (
               <NavDropdown
                 title="Login"
-                id="collasible-nav-dropdown"
+                id="collapsible-nav-dropdown"
                 alignRight={true}
               >
                 <Form
