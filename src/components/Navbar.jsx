@@ -1,32 +1,25 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
 
-function Navbar() {
+function NavBar({ loggedIn, username }) {
   return (
-    <Nav variant="pills" defaultActiveKey="/home">
-      <Nav.Item>
-        <Nav.Link className="navbar-brand" as={Link} to="/">
-          LFHT
-        </Nav.Link>
-      </Nav.Item>
-      <Nav.Item>
-        <Nav.Link as={Link} to="/home">
-          Home
-        </Nav.Link>
-      </Nav.Item>
-      <Nav.Item>
-        <Nav.Link as={Link} to="/groups">
-          Groups
-        </Nav.Link>
-      </Nav.Item>
-      <Nav.Item>
-        <Nav.Link as={Link} to="/login">
-          Login
-        </Nav.Link>
-      </Nav.Item>
-    </Nav>
+    <Navbar bg="light" expand="lg">
+      <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
+      <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      <Navbar.Collapse id="basic-navbar-nav">
+        <Nav className="mr-auto">
+          <Nav.Link href="#home">Home</Nav.Link>
+          <Nav.Link href="#link">Link</Nav.Link>
+        </Nav>
+        <Nav>
+          <Nav.Link href="#link">Link</Nav.Link>
+          {loggedIn && <p>Join the party, {username}!</p>}
+        </Nav>
+      </Navbar.Collapse>
+    </Navbar>
   );
 }
 
-export default Navbar;
+export default NavBar;
