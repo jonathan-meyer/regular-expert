@@ -1,16 +1,16 @@
 import React, { Component } from "react";
 
+import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import ListGroup from "react-bootstrap/ListGroup";
 
 import Listing from "../components/Listing";
-import LoginModal from '../components/Modal';
+
 import API from "../utils/API";
 
 class Landing extends Component {
   state = {
-    location: "Portsmouth, NH",
-    message: "Hey, this is the landing page!",
+    query: "Portsmouth, NH",
     listings: [],
     loading: false
   };
@@ -41,27 +41,28 @@ class Landing extends Component {
     const { query, listings, loading } = this.state;
 
     return (
-      <div>
-        <h1>{this.state.message}</h1>
-        <Form onSubmit={e => this.handleFormSubmit(e)}>
-          <Form.Control
-            Location={this.state.location}
-            type="text"
-            id="query"
-            value={query}
-            onChange={e => this.changeHandler(e)}
-          ></Form.Control>
-        </Form>
-        {loading && <span>loading...</span>}
-        <LoginModal 
-          isOpen="true"
-        />
-        <ListGroup>
-          {listings.map((listing, key) => (
-            <Listing key={key} {...listing} />
-          ))}
-        </ListGroup>
-      </div>
+      <Card className="mt-1">
+        <Card.Header>
+          <h1>Lets Find a home Together</h1>
+        </Card.Header>
+        <Card.Body>
+          <Form onSubmit={e => this.handleFormSubmit(e)}>
+            <Form.Control
+              location={this.state.location}
+              type="text"
+              id="query"
+              value={query}
+              onChange={e => this.changeHandler(e)}
+            ></Form.Control>
+          </Form>
+          {loading && <span>loading...</span>}
+          <ListGroup>
+            {listings.map((listing, key) => (
+              <Listing key={key} {...listing} />
+            ))}
+          </ListGroup>
+        </Card.Body>
+      </Card>
     );
   }
 }
