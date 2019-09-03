@@ -1,7 +1,6 @@
 require("dotenv").config();
 
 const passport = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
 const path = require("path");
 const express = require("express");
 const morgan = require("morgan");
@@ -21,36 +20,6 @@ const app = express()
 
   // routes
   .use(require("./routes"));
-
-passport.serializeUser((user, cb) => {
-  cb(null, user);
-});
-
-passport.deserializeUser((user, cb) => {
-  cb(null, user);
-});
-
-// Local Strategy for Passport
-passport.use(
-  new LocalStrategy(function(username, password, done) {
-    // eslint-disable-next-line no-undef
-    db.User.findOne({ username: username }, function(err, user) {
-      if (err) {
-        return done(err);
-      }
-
-      if (!user) {
-        return done(null, false, { message: "Incorrect username." });
-      }
-
-      if (!user.validPassword(password)) {
-        return done(null, false, { message: "Incorrect password." });
-      }
-      
-      return done(null, user);
-    });
-  })
-);
 
 // static files
 if (process.env.NODE_ENV === "production") {

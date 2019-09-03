@@ -1,21 +1,23 @@
 import React, { Component } from "react";
-import Form from 'react-bootstrap/Form';
-import ListGroup from 'react-bootstrap/ListGroup';
-import Listing from '../components/Listing';
-import Navbar from "../components/Navbar";
+
+import Card from "react-bootstrap/Card";
+import Form from "react-bootstrap/Form";
+import ListGroup from "react-bootstrap/ListGroup";
+
+import Listing from "../components/Listing";
+
 import API from "../utils/API";
 
 class Landing extends Component {
   state = {
-    location: "Portsmouth, NH",
-    message: "Hey, this is the landing page!",
+    query: "Portsmouth, NH",
     listings: [],
     loading: false
   };
 
   changeHandler(e) {
     const { id, value } = e.target;
-    this.setState({[id]: value});
+    this.setState({ [id]: value });
   }
 
   handleFormSubmit = e => {
@@ -26,44 +28,41 @@ class Landing extends Component {
 
     API.searchListings(query)
       .then(data => {
-        console.log({data});
-        this.setState({loading: false, listings: data.data.listings})
+        console.log({ data });
+        this.setState({ loading: false, listings: data.data.listings });
       })
       .catch(err => {
-        this.setState({loading: false});
-        console.log({err});
+        this.setState({ loading: false });
+        console.log({ err });
       });
   };
-
-  componentDidMount() {
-    // API.searchListings();
-  }
 
   render() {
     const { query, listings, loading } = this.state;
 
     return (
-      <div>
-        
-        <div>
-          <h1>{this.state.message}</h1>
+      <Card className="mt-1">
+        <Card.Header>
+          <h1>Lets Find a home Together</h1>
+        </Card.Header>
+        <Card.Body>
           <Form onSubmit={e => this.handleFormSubmit(e)}>
             <Form.Control
-            Location={this.state.location}
-            type="text"
-            id="query"
-            value={query}
-            onChange={e => this.changeHandler(e)}
+              location={this.state.location}
+              type="text"
+              id="query"
+              value={query}
+              onChange={e => this.changeHandler(e)}
             ></Form.Control>
           </Form>
           {loading && <span>loading...</span>}
           <ListGroup>
             {listings.map((listing, key) => (
-              <Listing key={key} { ...listing } />
+              <Listing key={key} {...listing} />
             ))}
           </ListGroup>
-        </div>
-      </div>
+        </Card.Body>
+      </Card>
     );
   }
 }

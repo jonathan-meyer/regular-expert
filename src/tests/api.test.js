@@ -11,7 +11,7 @@ describe("react listings api", () => {
   it("search listings", () =>
     expect(api.searchListings("Earth")).resolves.toEqual(
       expect.objectContaining({
-        url: "/api/search",
+        url: "/api/realtor/search",
         options: { params: { q: "Earth" } }
       })
     ));
@@ -19,7 +19,7 @@ describe("react listings api", () => {
   it("detailed listing", () =>
     expect(api.listingDetails(123, 321)).resolves.toEqual(
       expect.objectContaining({
-        url: "/api/listing/123/321"
+        url: "/api/realtor/listing/123/321"
       })
     ));
 });
