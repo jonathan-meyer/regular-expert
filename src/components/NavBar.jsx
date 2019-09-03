@@ -60,7 +60,7 @@ function NavBar({ user }) {
                   </Form.Group>
                   <Form.Group>
                     <Form.Control
-                      namne="password"
+                      name="password"
                       type="password"
                       placeholder="Password"
                     />
