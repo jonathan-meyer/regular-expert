@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import Emoji from "@stej/emoji";
+import axios from "axios";
 
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
@@ -9,11 +10,36 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
-const handelLogin = e => {
+const handleLogin = (e, updateUser) => {
   e.preventDefault();
+
+  const data = new FormData(e.target);
+
+  axios
+    .post("/auth/login", {
+      username: data.get("username"),
+      password: data.get("password")
+    })
+    .then(res => res.data)
+    .then(data => {
+      console.log(data);
+      updateUser(data);
+    })
+    .catch(err => console.log({ err }));
 };
 
-function NavBar({ user }) {
+const handleLogout = (e, updateUser) => {
+  axios
+    .post("/auth/logout")
+    .then(res => res.data)
+    .then(data => {
+      console.log(data);
+      updateUser(null);
+    })
+    .catch(err => console.log({ err }));
+};
+
+function NavBar({ user, updateUser }) {
   return (
     <>
       <Navbar bg="light" expand="lg">
@@ -33,11 +59,15 @@ function NavBar({ user }) {
           <Nav>
             {user ? (
               <>
-                <Nav.Link as={Link} to="/logout">
+                <Nav.Link
+                  as={Button}
+                  onClick={e => handleLogout(e, updateUser)}
+                  variant="link"
+                >
                   Logout
                 </Nav.Link>
                 <Nav.Link as={Link} to="/profile">
-                  {user}
+                  {user.firstName} {user.lastName}
                 </Nav.Link>
               </>
             ) : (
@@ -49,7 +79,7 @@ function NavBar({ user }) {
                 <Form
                   className="m-2"
                   style={{ width: "300px" }}
-                  onSubmit={e => handelLogin(e)}
+                  onSubmit={e => handleLogin(e, updateUser)}
                 >
                   <Form.Group>
                     <Form.Control

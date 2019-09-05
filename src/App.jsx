@@ -16,8 +16,7 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      loggedIn: false,
-      username: null
+      user: null
     };
 
     this.getUser = this.getUser.bind(this);
@@ -29,53 +28,38 @@ class App extends React.Component {
     this.getUser();
   }
 
-  updateUser(userObject) {
-    this.setState(userObject);
+  updateUser(user) {
+    this.setState({ user });
   }
 
   getUser() {
     axios
-      .get("/user/")
+      .get("/auth/")
       .then(response => {
-        console.log("Get user response: ", response.data);
-
-        if (response.data.user) {
-          console.log(
-            "Get User: There is a user saved in the server session: "
-          );
-
-          this.setState({
-            loggedIn: true,
-            username: response.data.user.username
-          });
-        } else {
-          console.log("Get user: no user");
-
-          this.setState({
-            loggedIn: false,
-            username: null
-          });
-        }
+        const { user } = response.data;
+        this.setState({ user });
       })
       .catch(err => {
         console.log({ err });
-
-        this.setState({
-          loggedIn: false,
-          username: null
-        });
+        this.setState({ user: null });
       });
   }
 
   render() {
+    const { user } = this.state;
+
     return (
       <Router>
-        <NavBar {...this.state} />
+        <NavBar user={user} updateUser={this.updateUser} />
         <Container>
           <Switch>
             <Route exact path="/" component={Landing} />
             <Route exact path="/group" component={Group} />
-            <Route exact path="/groups" component={Groups} />
+            <Route
+              exact
+              path="/groups"
+              render={props => <Groups user={user} {...props} />}
+            />
             <Route component={NotFound} />
           </Switch>
         </Container>

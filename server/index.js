@@ -1,10 +1,12 @@
 require("dotenv").config();
 
-const passport = require("passport");
 const path = require("path");
 const express = require("express");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
+const session = require("express-session");
+
+const passport = require("./passport");
 
 const PORT = process.env.PORT || 3001;
 
@@ -13,6 +15,16 @@ const app = express()
   .use(express.urlencoded({ extended: true }))
   .use(express.json())
   .use(morgan("tiny"))
+
+  // setup sessions
+  .use(
+    session({
+      secret: "b3cfe381-7dd7-4887-8401-c58d33e3649d",
+      name: "lfht-secret",
+      resave: true,
+      saveUninitialized: false
+    })
+  )
 
   // setup passport
   .use(passport.initialize())
