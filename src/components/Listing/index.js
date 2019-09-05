@@ -6,8 +6,8 @@ import Image from "react-bootstrap/Image";
 export default function({ photo, address }) {
   return (
     <ListGroup.Item>
-      <Image src={photo} thumbnail />
-      <div>{address}</div>
+      <Image src={photo} thumbnail width={240} className="float-left m-1" />
+      <p>{address}</p>
     </ListGroup.Item>
   );
 }
