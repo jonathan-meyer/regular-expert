@@ -10,6 +10,14 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
+const menu = [
+  { label: "Home", link: "/" },
+  { label: "Groups", link: "/groups" },
+  { label: "Group", link: "/group" },
+  { label: "Create A Group", link: "/group/create" },
+  { label: "Sign Up", link: "/sign-up" }
+];
+
 const handleLogin = (e, updateUser) => {
   e.preventDefault();
 
@@ -49,12 +57,11 @@ function NavBar({ user, updateUser }) {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
-            <Nav.Link as={Link} to="/">
-              Home
-            </Nav.Link>
-            <Nav.Link as={Link} to="/groups">
-              Groups
-            </Nav.Link>
+            {menu.map((item, key) => (
+              <Nav.Link key={key} as={Link} to={item.link}>
+                {item.label}
+              </Nav.Link>
+            ))}
           </Nav>
           <Nav>
             {user ? (

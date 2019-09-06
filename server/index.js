@@ -45,5 +45,5 @@ mongoose.connect(process.env.MONGODB_URI, {
 
 // start server
 app.listen(PORT, () => {
-  console.log(`🌎 ==> HTML/API server now on port ${PORT}!`);
+  console.log(`🌎  ==> HTML/API server now on port ${PORT}!`);
 });

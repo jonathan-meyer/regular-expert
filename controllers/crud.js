@@ -38,6 +38,7 @@ module.exports = Collection => {
   // ========
   const readOne = (req, res) => {
     const { _id } = req.params;
+    const { populate } = req.query;
 
     Collection.findById(_id, (e, result) => {
       if (e) {
@@ -46,7 +47,7 @@ module.exports = Collection => {
       } else {
         res.send(result);
       }
-    });
+    }).populate(populate);
   };
 
   // ======

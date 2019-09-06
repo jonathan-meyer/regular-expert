@@ -7,10 +7,11 @@ import Container from "react-bootstrap/Container";
 import NavBar from "./components/NavBar";
 
 import Group from "./pages/Group";
+import CreateGroup from "./pages/CreateGroup";
 import Groups from "./pages/Groups";
 import Landing from "./pages/Landing";
 import NotFound from "./pages/NotFound";
-import SignUp from './pages/SignUp';
+import SignUp from "./pages/SignUp";
 
 class App extends React.Component {
   constructor(props) {
@@ -52,11 +53,28 @@ class App extends React.Component {
     return (
       <Router>
         <NavBar user={user} updateUser={this.updateUser} />
-        <Container>
+        <Container className="my-2">
           <Switch>
-            <Route exact path="/" component={Landing} />
-            <Route exact path="/group" component={Group} />
-            <Route exact path="/signUp" component={SignUp} />
+            <Route
+              exact
+              path="/"
+              render={props => <Landing user={user} {...props} />}
+            />
+            <Route
+              exact
+              path="/group"
+              render={props => <Group user={user} {...props} />}
+            />
+            <Route
+              exact
+              path="/sign-up"
+              render={props => <SignUp user={user} {...props} />}
+            />
+            <Route
+              exact
+              path="/group/:id"
+              render={props => <CreateGroup user={user} {...props} />}
+            />
             <Route
               exact
               path="/groups"
