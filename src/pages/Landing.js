@@ -6,7 +6,6 @@ import InputGroup from "react-bootstrap/InputGroup";
 import FormControl from "react-bootstrap/FormControl";
 import Button from "react-bootstrap/Button";
 import ListGroup from "react-bootstrap/ListGroup";
-import Container from "react-bootstrap/Container";
 
 import Listing from "../components/Listing";
 import API from "../utils/API";
