@@ -4,7 +4,6 @@ import ReactPlayer from "react-player";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import ListGroup from "react-bootstrap/ListGroup";
-import Container from "react-bootstrap/Container";
 
 import Listing from "../components/Listing";
 import API from "../utils/API";

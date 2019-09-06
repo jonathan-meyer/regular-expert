@@ -10,6 +10,7 @@ import Group from "./pages/Group";
 import Groups from "./pages/Groups";
 import Landing from "./pages/Landing";
 import NotFound from "./pages/NotFound";
+import SignUp from './pages/SignUp';
 
 class App extends React.Component {
   constructor(props) {
@@ -55,6 +56,7 @@ class App extends React.Component {
           <Switch>
             <Route exact path="/" component={Landing} />
             <Route exact path="/group" component={Group} />
+            <Route exact path="/signUp" component={SignUp} />
             <Route
               exact
               path="/groups"
