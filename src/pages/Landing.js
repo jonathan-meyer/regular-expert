@@ -1,12 +1,6 @@
 import React, { Component } from "react";
 import ReactPlayer from "react-player";
-import Card from "react-bootstrap/Card";
-import Form from "react-bootstrap/Form";
-import InputGroup from "react-bootstrap/InputGroup";
-import FormControl from "react-bootstrap/FormControl";
-import Button from "react-bootstrap/Button";
-import ListGroup from "react-bootstrap/ListGroup";
-
+import {Card, Form, InputGroup, FormControl, Button, Container, Col, Row, ListGroup, ListGroupItem } from 'react-bootstrap';
 import Listing from "../components/Listing";
 import API from "../utils/API";
 
