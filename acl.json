@@ -38,9 +38,14 @@
         "action": "allow"
       },
       {
-        "resource": "*",
+        "resource": "api/*",
         "methods": "*",
         "action": "deny"
+      },
+      {
+        "resource": "*",
+        "methods": ["GET"],
+        "action": "allow"
       }
     ]
   }
