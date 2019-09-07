@@ -72,7 +72,7 @@ class App extends React.Component {
             />
             <Route
               exact
-              path="/group/:id"
+              path={["/group/edit/:id", "/group/create"]}
               render={props => <CreateGroup user={user} {...props} />}
             />
             <Route
