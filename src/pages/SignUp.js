@@ -8,16 +8,26 @@ import {
   Button
 } from "react-bootstrap";
 import axios from "axios";
-import banner from "../assets/home.jpg"
+import banner from "../assets/home.jpg";
+import Modal from "react-modal";
 
 class SignUp extends Component {
-  state = {
-    username: "",
-    password: "",
-    firstName: "",
-    lastName: "",
-    newUser: null
-  };
+  constructor() {
+    super();
+    this.state = {
+      username: "",
+      password: "",
+      firstName: "",
+      lastName: "",
+      newUser: null,
+      open: false
+    };
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+    this.validateForm = this.validateForm.bind(this);
+  }
 
   validateForm() {
     return (
@@ -31,6 +41,16 @@ class SignUp extends Component {
     this.setState({
       [event.target.id]: event.target.value
     });
+  };
+
+  customStyles = {
+    content: {
+      width: "300px",
+      height: "200px",
+      right: "auto",
+      bottom: "auto",
+      marginRight: "-50%"
+    }
   };
 
   handleSubmit = async event => {
@@ -48,6 +68,7 @@ class SignUp extends Component {
       })
       .then(res => {
         console.log(res);
+        this.setState({ open: true });
       })
       .catch(err => {
         console.log(err);
@@ -63,9 +84,29 @@ class SignUp extends Component {
     fontWeight: "bold"
   };
 
+  closeModal() {
+    this.setState({ open: false });
+  }
+
   render() {
     return (
       <>
+        {this.state.open && (
+          <Modal
+            isOpen={true}
+            shouldCloseOnEsc={true}
+            style={this.customStyles}
+            ariaHideApp={false}
+          >
+            <h1 id='heading'>User Added!</h1>
+            <br></br>
+            <div id='full_description'>
+              <Button variant='danger' onClick={this.closeModal}>
+                Close
+              </Button>
+            </div>
+          </Modal>
+        )}
         <Container style={this.bannerStyle}>
           <div className='banner'>
             <img src={banner} style={this.bannerStyle} alt='banner'></img>
@@ -126,6 +167,7 @@ class SignUp extends Component {
                 type='submit'
                 text='Signup'
                 loadingtext='Signing up…'
+                onClick={this.openModal}
               >
                 Sign Up
               </Button>
