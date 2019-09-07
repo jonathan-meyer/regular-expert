@@ -1,25 +1,26 @@
 const express = require("express");
-const passport = require("passport");
 
 const crud = require("../../controllers/crud");
+const User = require("../models/user");
 
 const router = express.Router();
 
 router.use("/realtor", require("./realtor"));
 
-const auth = (req, res, next) => {
-  req.user ? next() : res.send(401);
-};
+router.use("/comment", crud(require("../models/comment")));
+router.use("/group", crud(require("../models/group")));
+router.use("/listing", crud(require("../models/listing")));
 
-router.use("/comment", auth, crud(require("../models/comment")));
-router.use("/group", auth, crud(require("../models/group")));
-router.use("/listing", auth, crud(require("../models/listing")));
-router.use(
-  "/user",
-  (req, res, next) => {
-    req.user && req.user.username === "root" ? next() : res.send(401);
-  },
-  crud(require("../models/user"))
-);
+router.use("/user/list", (req, res) => {
+  User.find({}, "_id firstName lastName", (err, result) => {
+    if (err) {
+      res.status(500).json(err);
+    } else {
+      res.json(result);
+    }
+  });
+});
+
+router.use("/user", crud(User));
 
 module.exports = router;

@@ -5,6 +5,10 @@ const User = require("../models/user");
 
 const router = express.Router();
 
+router.get("/profile", (req, res) => {
+  res.json(req.user || {});
+});
+
 router.post("/", (req, res) => {
   const { firstName, lastName, username, password } = req.body;
 

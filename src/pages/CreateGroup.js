@@ -1,43 +1,95 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-import Card from "react-bootstrap/Card";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import ListGroup from "react-bootstrap/ListGroup";
-import ButtonGroup from "react-bootstrap/ButtonGroup";
-import banner from "../assets/college.jpg";
-
 import Multiselect from "react-widgets/lib/Multiselect";
 
-class Groups extends Component {
-  state = {};
+import Container from "react-bootstrap/Container";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+import Alert from "react-bootstrap/Alert";
 
-  handleSubmit(e) {
-    e.preventDefault();
-    console.log(Array.from(new FormData(e.target).entries()));
+import Json from "../components/Json";
+
+import banner from "../assets/college.jpg";
+
+class CreateGroup extends Component {
+  state = {
+    group: {
+      name: "",
+      description: "",
+      members: []
+    },
+    users: [],
+    fetchingUsers: false,
+    fetchingGroup: false
+  };
+
+  handleChange(e) {
+    const { id, value } = e.target;
+    const { group } = this.state;
+
+    this.setState({ group: { ...group, [id]: value } });
   }
 
-  handleUserListChange(e) {}
+  handleMultiSelectChange(members) {
+    const { group } = this.state;
+
+    this.setState({ group: { ...group, members } });
+  }
+
+  handleClick(e) {
+    console.log(this.state.group);
+  }
+
+  getUsers() {
+    const { users, fetchingUsers } = this.state;
+    const { user } = this.props;
+
+    if (user && !fetchingUsers && users.length === 0) {
+      console.log("getting users");
+
+      this.setState({ fetchingUsers: true });
+
+      axios
+        .get("/api/user/list")
+        .then(res => res.data)
+        .then(data => {
+          this.setState({ fetchingUsers: false, users: data });
+          console.log({ users: data });
+        })
+        .catch(err => {
+          this.setState({ fetchingUsers: false, users: [] });
+          console.log(err);
+        });
+    }
+  }
 
   componentDidMount() {
-    const { group } = this.state;
+    const { group, fetchingGroup } = this.state;
     const { match } = this.props;
 
-    if (!group) {
+    console.log("componentDidMount");
+
+    if (!fetchingGroup && !group.name && match.params.id) {
+      this.setState({ fetchingGroup: true });
+
       axios
         .get(`/api/group/${match.params.id}`, {
           params: { populate: ["users"] }
         })
         .then(res => res.data)
         .then(data => {
-          this.setState({ group: data });
+          this.setState({ fetchingGroup: false, group: data });
         })
         .catch(err => {
-          this.setState({ group: undefined });
+          this.setState({ fetchingGroup: false, group: {} });
           console.log(err);
         });
     }
+  }
+
+  componentDidUpdate() {
+    this.getUsers();
   }
 
   bannerStyle = {
@@ -50,47 +102,59 @@ class Groups extends Component {
   };
 
   render() {
-    const { group, users } = this.state;
-    const { match } = this.props;
+    const { user } = this.props;
+    const { group, users, fetchingUsers } = this.state;
 
     return (
-      <Card>
-        <div className='banner'>
-          <img src={banner} style={this.bannerStyle} alt='banner'></img>
-        </div>
-        <Card.Body>
-          <Form onSubmit={e => this.handleSubmit(e)}>
-            <Form.Group controlId='name'>
-              <Form.Label style={this.inputText}>Name:</Form.Label>
-              <Form.Control></Form.Control>
-            </Form.Group>
-            <Form.Group controlId='description'>
-              <Form.Label style={this.inputText}>Description:</Form.Label>
-              <Form.Control></Form.Control>
-            </Form.Group>
-            <Form.Group controlId='members'>
-              <Multiselect
-                name='users'
-                data={[]}
-                value={
-                  group &&
-                  group.users.map(user => ({
-                    text: user.username,
-                    value: user._id
-                  }))
-                }
-                onChange={e => this.handleUserListChange(e)}
-              ></Multiselect>
-            </Form.Group>
-            <Button onClick={() => {}}>Save</Button>
-          </Form>
-        </Card.Body>
-        <Card.Footer>
-          <pre>{JSON.stringify(group, null, 2)}</pre>
-        </Card.Footer>
-      </Card>
+      <Container>
+        {user ? (
+          <>
+            <div className="banner">
+              <img src={banner} style={this.bannerStyle} alt="banner"></img>
+            </div>
+            <div>
+              <Form onSubmit={e => e.preventDefault()}>
+                <Form.Group controlId="name">
+                  <Form.Label>Name:</Form.Label>
+                  <Form.Control
+                    value={group.name}
+                    onChange={e => this.handleChange(e)}
+                  ></Form.Control>
+                </Form.Group>
+                <Form.Group controlId="description">
+                  <Form.Label>Description:</Form.Label>
+                  <Form.Control
+                    value={group.description}
+                    onChange={e => this.handleChange(e)}
+                  ></Form.Control>
+                </Form.Group>
+                <Form.Group controlId="members">
+                  <Form.Label>Members:</Form.Label>
+                  <Multiselect
+                    id="members"
+                    textField={i => `${i.firstName} ${i.lastName}`}
+                    valueField="_id"
+                    value={group.members}
+                    onChange={items => this.handleMultiSelectChange(items)}
+                    data={users}
+                    busy={fetchingUsers}
+                  ></Multiselect>
+                </Form.Group>
+                <Button onClick={e => this.handleClick(e)}>Save</Button>
+              </Form>
+            </div>
+          </>
+        ) : (
+          <Alert variant="danger">Need to login first</Alert>
+        )}
+        <Alert variant="info">
+          Debug:
+          <Json title="user">{user}</Json>
+          <Json title="group">{group}</Json>
+        </Alert>
+      </Container>
     );
   }
 }
 
-export default Groups;
+export default CreateGroup;
