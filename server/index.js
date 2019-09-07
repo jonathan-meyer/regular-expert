@@ -2,9 +2,9 @@ require("dotenv").config();
 
 const path = require("path");
 const express = require("express");
+const session = require("express-session");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
-const session = require("express-session");
 
 const passport = require("./passport");
 
@@ -14,7 +14,7 @@ const app = express()
   // middlewares
   .use(express.urlencoded({ extended: true }))
   .use(express.json())
-  .use(morgan("tiny"))
+  .use(morgan("dev"))
 
   // setup sessions
   .use(
