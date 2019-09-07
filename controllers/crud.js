@@ -21,7 +21,7 @@ module.exports = Collection => {
   // Read many
   // =========
   const readMany = (req, res) => {
-    let query = res.locals.query || {};
+    const { query } = req;
 
     Collection.find(query, (e, result) => {
       if (e) {
