@@ -2,12 +2,13 @@ import React, { Component } from "react";
 import {
   Form,
   FormGroup,
-  FormControl,
   Container,
+  FormControl,
   FormLabel,
   Button
 } from "react-bootstrap";
-import banner from "../assets/home.jpg";
+import axios from "axios";
+import banner from "../assets/home.jpg"
 
 class SignUp extends Component {
   state = {
@@ -34,12 +35,27 @@ class SignUp extends Component {
 
   handleSubmit = async event => {
     event.preventDefault();
+    this.setState({ newUser: true });
     let user = this.state;
-    console.log("User", user);
+    console.log("user", user);
+
+    axios
+      .post("/auth/", {
+        firstName: this.state.firstName,
+        lastName: this.state.lastName,
+        username: this.state.username,
+        password: this.state.password
+      })
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   bannerStyle = {
-    width: '100%',
+    width: "100%",
     marginBottom: "50px"
   };
 
