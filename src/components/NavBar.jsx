@@ -104,7 +104,7 @@ function NavBar({ user, updateUser }) {
                   </Form.Group>
                   <Form.Group>
                     <Button className="float-right" type="submit" size="sm">
-                      Login
+                      <Emoji>Login :sunglasses:</Emoji>
                     </Button>
                   </Form.Group>
                 </Form>
