@@ -1,0 +1,47 @@
+[
+  {
+    "group": "admin",
+    "permissions": [
+      {
+        "resource": "*",
+        "methods": "*",
+        "action": "allow"
+      }
+    ]
+  },
+  {
+    "group": "user",
+    "permissions": [
+      {
+        "resource": "api/user/list",
+        "methods": "*",
+        "action": "allow"
+      },
+      {
+        "resource": "api/user/*",
+        "methods": "*",
+        "action": "deny"
+      },
+      {
+        "resource": "*",
+        "methods": "*",
+        "action": "allow"
+      }
+    ]
+  },
+  {
+    "group": "guest",
+    "permissions": [
+      {
+        "resource": "api/realtor/search",
+        "methods": ["GET"],
+        "action": "allow"
+      },
+      {
+        "resource": "*",
+        "methods": "*",
+        "action": "deny"
+      }
+    ]
+  }
+]
