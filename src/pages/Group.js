@@ -19,16 +19,6 @@ class Group extends Component {
     ]
   };
 
-  // removeListGroup = id => {
-  //   const listGroup = this.state.listGroup.filter(
-  //     listGroup => listGroup.id !== id
-  //   );
-  //   this.setState({ listGroup });
-  // };
-
-  // removeListGroup={this.removeListing}
-  // id={listGroup.id}
-
   render() {
     return (
       <Card>
@@ -47,4 +37,3 @@ class Group extends Component {
 }
 
 export default Group;
-

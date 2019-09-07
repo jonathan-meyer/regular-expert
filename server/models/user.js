@@ -5,6 +5,11 @@ mongoose.promise = Promise;
 
 // Define userSchema
 const UserSchema = new Schema({
+  role: {
+    type: String,
+    default: "user"
+  },
+
   firstName: {
     type: String,
     required: "First Name is required."
