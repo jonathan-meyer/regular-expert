@@ -85,15 +85,14 @@ class Landing extends Component {
                     </InputGroup.Append>
                   </InputGroup>
                 </Form>
-
-                {loading && <span>loading...</span>}
-                <ListGroup>
-                  {listings.map((listing, key) => (
-                    <Listing key={key} {...listing} />
-                  ))}
-                </ListGroup>
               </Card.Body>
             </Card>
+            {loading && <span>loading...</span>}
+            <ListGroup id='listgroup'>
+              {listings.map((listing, key) => (
+                <Listing key={key} {...listing} />
+              ))}
+            </ListGroup>
           </Card.ImgOverlay>
         </Card>
       </>
