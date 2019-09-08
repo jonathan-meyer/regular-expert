@@ -89,6 +89,7 @@ function NavBar({ user, updateUser }) {
                   onSubmit={e => handleLogin(e, updateUser)}
                 >
                   <Form.Group>
+                    <h5>Username:</h5>
                     <Form.Control
                       name="username"
                       type="text"
@@ -96,6 +97,7 @@ function NavBar({ user, updateUser }) {
                     />
                   </Form.Group>
                   <Form.Group>
+                  <h5>Password:</h5>
                     <Form.Control
                       name="password"
                       type="password"
