@@ -14,7 +14,7 @@ import banner from "../assets/cover.jpg";
 
 class Landing extends Component {
   state = {
-    query: "Portsmouth, NH",
+    query: "",
     listings: [],
     loading: false
   };
@@ -66,8 +66,8 @@ class Landing extends Component {
                 <Form onSubmit={e => this.handleFormSubmit(e)}>
                   <InputGroup className='mb-3'>
                     <FormControl
-                      placeholder="Recipient's username"
-                      aria-label="Recipient's username"
+                      placeholder="Enter a location..."
+                      aria-label="location"
                       aria-describedby='basic-addon2'
                       location={this.state.location}
                       type='text'
