@@ -47,13 +47,15 @@ class Landing extends Component {
     return (
       <>
         <Card className='card-img-underlay'>
-        <div className='banner'>
-          <img src={banner} alt='banner' className='banner'></img>
-        </div>
+          <div className='banner'>
+            <img src={banner} alt='banner' className='banner'></img>
+          </div>
           <Card.ImgOverlay>
             <Card id='card'>
               <Card.Header>
-                <h1 className='text-center'>Finding Your Dream Home Starts Here</h1>
+                <h1 className='text-center'>
+                  Finding Your Dream Home Starts Here
+                </h1>
               </Card.Header>
               <Card.Body>
                 <Form.Label>
@@ -74,7 +76,12 @@ class Landing extends Component {
                       onChange={e => this.changeHandler(e)}
                     />
                     <InputGroup.Append>
-                      <Button variant='dark'>Find Home!</Button>
+                      <Button
+                        variant='dark'
+                        onClick={e => this.handleFormSubmit(e)}
+                      >
+                        Find Home!
+                      </Button>
                     </InputGroup.Append>
                   </InputGroup>
                 </Form>
