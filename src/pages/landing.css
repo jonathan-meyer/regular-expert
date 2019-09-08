@@ -1,0 +1,19 @@
+.my-2,
+.container {
+  min-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  justify-content: center;
+}
+
+.banner {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+}
+
+#card {
+  margin-top: 20%;
+  text-align: center;
+  box-shadow: 5px 5px 10px #000000;
+}

@@ -80,6 +80,12 @@ class SignUp extends Component {
     marginBottom: "50px"
   };
 
+  signup = {
+    marginLeft: '100px',
+    marginRight: '100px',
+    marginBottom: '100px'
+  }
+
   inputText = {
     fontWeight: "bold"
   };
@@ -111,13 +117,14 @@ class SignUp extends Component {
           <div className='banner'>
             <img src={banner} style={this.bannerStyle} alt='banner'></img>
           </div>
-          <div className='Signup'>
+          <div className='Signup' style={this.signup}>
             <Form onSubmit={this.handleSubmit}>
               <FormGroup controlId='firstName'>
                 <FormLabel style={this.inputText}>First Name</FormLabel>
                 <FormControl
                   autoFocus
                   type='firstName'
+                  placeholder='First Name'
                   value={this.state.firstName}
                   onChange={this.handleChange}
                   autoComplete='off'
@@ -128,6 +135,7 @@ class SignUp extends Component {
                 <FormControl
                   autoFocus
                   type='lastName'
+                  placeholder='Last Name'
                   value={this.state.lastName}
                   onChange={this.handleChange}
                   autoComplete='off'
@@ -138,6 +146,7 @@ class SignUp extends Component {
                 <FormControl
                   autoFocus
                   type='username'
+                  placeholder='Username'
                   value={this.state.username}
                   onChange={this.handleChange}
                   autoComplete='off'
@@ -148,6 +157,7 @@ class SignUp extends Component {
                 <FormControl
                   value={this.state.password}
                   onChange={this.handleChange}
+                  placeholder='Password'
                   type='password'
                   autoComplete='off'
                 />
@@ -158,6 +168,7 @@ class SignUp extends Component {
                   value={this.state.confirmPassword}
                   onChange={this.handleChange}
                   type='password'
+                  placeholder='Confirm Password'
                   autoComplete='off'
                 />
               </FormGroup>
