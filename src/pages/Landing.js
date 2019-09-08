@@ -14,7 +14,7 @@ import banner from "../assets/cover.jpg";
 
 class Landing extends Component {
   state = {
-    query: "Portsmouth, NH",
+    query: "",
     listings: [],
     loading: false
   };
@@ -47,13 +47,15 @@ class Landing extends Component {
     return (
       <>
         <Card className='card-img-underlay'>
-        <div className='banner'>
-          <img src={banner} alt='banner' className='banner'></img>
-        </div>
+          <div className='banner'>
+            <img src={banner} alt='banner' className='banner'></img>
+          </div>
           <Card.ImgOverlay>
             <Card id='card'>
               <Card.Header>
-                <h1 className='text-center'>Finding Your Dream Home Starts Here</h1>
+                <h1 className='text-center'>
+                  Finding Your Dream Home Starts Here
+                </h1>
               </Card.Header>
               <Card.Body>
                 <Form.Label>
@@ -64,8 +66,8 @@ class Landing extends Component {
                 <Form onSubmit={e => this.handleFormSubmit(e)}>
                   <InputGroup className='mb-3'>
                     <FormControl
-                      placeholder="Recipient's username"
-                      aria-label="Recipient's username"
+                      placeholder="Enter a location..."
+                      aria-label="location"
                       aria-describedby='basic-addon2'
                       location={this.state.location}
                       type='text'
@@ -74,19 +76,23 @@ class Landing extends Component {
                       onChange={e => this.changeHandler(e)}
                     />
                     <InputGroup.Append>
-                      <Button variant='dark'>Find Home!</Button>
+                      <Button
+                        variant='dark'
+                        onClick={e => this.handleFormSubmit(e)}
+                      >
+                        Find Home!
+                      </Button>
                     </InputGroup.Append>
                   </InputGroup>
                 </Form>
-
-                {loading && <span>loading...</span>}
-                <ListGroup>
-                  {listings.map((listing, key) => (
-                    <Listing key={key} {...listing} />
-                  ))}
-                </ListGroup>
               </Card.Body>
             </Card>
+            {loading && <span>loading...</span>}
+            <ListGroup id='listgroup'>
+              {listings.map((listing, key) => (
+                <Listing key={key} {...listing} />
+              ))}
+            </ListGroup>
           </Card.ImgOverlay>
         </Card>
       </>
