@@ -1,18 +1,14 @@
 import React, { Component } from "react";
 import {
-  Card,
-  Button,
   Table,
   Container,
   Col,
-  Row,
-  ListGroup,
-  ListGroupItem
+  Row
 } from "react-bootstrap";
 
 class Groups extends Component {
   render() {
-    const { user, group } = this.props;
+    const {user, group} = this.props;
     return (
       <>
         <div>
