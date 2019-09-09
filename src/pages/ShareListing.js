@@ -57,7 +57,7 @@ class ShareListing extends Component {
               type='groupName'
               placeholder='Group Name'
               value={this.state.groupName}
-              onChange={this.handleChange}
+              onChange={e => this.handleChange(e)}
               autoComplete='off'
             />
           </FormGroup>

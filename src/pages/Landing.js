@@ -43,7 +43,7 @@ class Landing extends Component {
 
   saveHome() {
     let data = this.state.listings;
-    
+
   }
 
   render() {
