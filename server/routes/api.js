@@ -4,6 +4,7 @@ const _ = require("lodash");
 const crud = require("../../controllers/crud");
 const realtor = require("../../controllers/realtor");
 
+const Group = require("../models/group");
 const User = require("../models/user");
 const Listing = require("../models/listing");
 
@@ -12,7 +13,18 @@ const router = express.Router();
 router.use("/realtor", require("./realtor"));
 
 router.use("/comment", crud(require("../models/comment")));
-router.use("/group", crud(require("../models/group")));
+
+router.use("/group/mine", (req, res) => {
+  Group.find({ owner: req.user._id })
+    .populate("users")
+    .then(data => res.json(data))
+    .catch(err => {
+      console.log({ err });
+      res.sendStatus(404);
+    });
+});
+
+router.use("/group", crud(Group));
 
 router.use("/listing/group/:id", (req, res) => {
   Listing.find({ group: req.params.id }, (err, listings) => {
