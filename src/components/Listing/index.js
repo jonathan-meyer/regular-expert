@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
+import { Link } from "react-router-dom";
 
 import ListGroup from "react-bootstrap/ListGroup";
 import Image from "react-bootstrap/Image";
-import Nav from "react-bootstrap/Nav";
 import { Button } from "react-bootstrap";
 
 class Listing extends Component {
@@ -18,8 +18,8 @@ class Listing extends Component {
       <p>{beds} beds | {baths} baths | {sqft}</p>
       <Button
         variant="primary"
-        as={Nav}
-        to={`/api/share/${listing_id}/${property_id}`}>Share this Home</Button>
+        as={Link}
+        to={`/share/${listing_id}/${property_id}`}>Share this Home</Button>
     </ListGroup.Item>
     </>);
   }

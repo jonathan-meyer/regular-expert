@@ -11,16 +11,6 @@ import {
 } from "react-bootstrap";
 
 class ShareListing extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      property_id: "",
-      groupName: "",
-      listing_id: "",
-      user: {}
-    };
-  }
-
   handleSubmit(e) {
     e.preventDefault();
     console.log("Submitted!");
@@ -43,8 +33,10 @@ class ShareListing extends Component {
   };
 
   render() {
+    const { match } = this.props;
     return (
       <div className='shareHome' style={this.sharingStyle}>
+        <pre>{JSON.stringify(match, null, 2)}</pre>
         <ListGroup id='listgroup'>
           {/* Show the listing you clicked 'share' on... */}
           <Listing />
@@ -56,7 +48,7 @@ class ShareListing extends Component {
               autoFocus
               type='groupName'
               placeholder='Group Name'
-              value={this.state.groupName}
+              value={'hi'}
               onChange={e => this.handleChange(e)}
               autoComplete='off'
             />
