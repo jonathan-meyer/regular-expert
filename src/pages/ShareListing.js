@@ -1,7 +1,14 @@
 import React, { Component } from "react";
 
 import Listing from "../components/Listing";
-import ListGroup from "react-bootstrap";
+import {
+  Form,
+  FormGroup,
+  ListGroup,
+  FormControl,
+  FormLabel,
+  Button
+} from "react-bootstrap";
 
 class ShareListing extends Component {
   constructor(props) {
@@ -19,6 +26,12 @@ class ShareListing extends Component {
     console.log("Submitted!");
   }
 
+  handleChange = event => {
+    this.setState({
+      [event.target.id]: event.target.value
+    });
+  };
+
   componentDidMount() {
     console.log("Mounted!");
   }
@@ -33,8 +46,8 @@ class ShareListing extends Component {
     return (
       <div className='shareHome' style={this.sharingStyle}>
         <ListGroup id='listgroup'>
-            {/* Show the listing you clicked 'share' on... */}
-            <Listing />
+          {/* Show the listing you clicked 'share' on... */}
+          <Listing />
         </ListGroup>
         <Form onSubmit={this.handleSubmit}>
           <FormGroup controlId='username'>
