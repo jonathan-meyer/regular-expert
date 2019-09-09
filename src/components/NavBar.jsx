@@ -9,114 +9,141 @@ import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import ButtonToolbar from "react-bootstrap/ButtonToolbar";
 
 const menu = [
-  { label: "Home", link: "/" },
-  { label: "Groups", link: "/groups" },
-  { label: "Group", link: "/group" },
-  { label: "Create A Group", link: "/group/create" },
-  { label: "Sign Up", link: "/sign-up" }
+  { label: "Home", link: "/", login: false },
+  { label: "Group Management", link: "/groups" },
+  { label: "Create A Group", link: "/group/create" }
 ];
 
-const handleLogin = (e, updateUser) => {
-  e.preventDefault();
+class NavBar extends React.Component {
+  state = { validated: false };
 
-  const data = new FormData(e.target);
+  handleLogin(e, updateUser) {
+    e.preventDefault();
 
-  axios
-    .post("/auth/login", {
-      username: data.get("username"),
-      password: data.get("password")
-    })
-    .then(res => res.data)
-    .then(data => {
-      console.log(data);
-      updateUser(data);
-    })
-    .catch(err => console.log({ err }));
-};
+    if (e.target.checkValidity()) {
+      const form = e.target;
+      const data = new FormData(form);
+      const username = data.get("username");
+      const password = data.get("password");
 
-const handleLogout = (e, updateUser) => {
-  axios
-    .post("/auth/logout")
-    .then(res => res.data)
-    .then(data => {
-      console.log(data);
-      updateUser(null);
-    })
-    .catch(err => console.log({ err }));
-};
+      axios
+        .post("/auth/login", { username, password })
+        .then(res => res.data)
+        .then(data => {
+          updateUser(data);
+          form.reset();
+        })
+        .catch(err => {
+          console.log({ err });
+          updateUser(null);
+          form.reset();
+          alert("Bad Username and Password");
+        });
+    }
 
-function NavBar({ user, updateUser }) {
-  return (
-    <>
-      <Navbar bg="light" expand="lg">
-        <Navbar.Brand>
-          <Emoji>:house_with_garden: LFHT</Emoji>
-        </Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="mr-auto">
-            {menu.map((item, key) => (
-              <Nav.Link key={key} as={Link} to={item.link}>
-                {item.label}
-              </Nav.Link>
-            ))}
-          </Nav>
-          <Nav>
-            {user ? (
-              <>
-                <Nav.Link
-                  as={Button}
-                  onClick={e => handleLogout(e, updateUser)}
-                  variant="link"
+    this.setState({ validated: true });
+  }
+
+  handleLogout(e, updateUser) {
+    axios
+      .post("/auth/logout")
+      .then(res => res.data)
+      .then(data => {
+        console.log(data);
+        updateUser(null);
+      })
+      .catch(err => console.log({ err }));
+  }
+
+  render() {
+    const { user, updateUser } = this.props;
+    const { validated } = this.state;
+
+    return (
+      <>
+        <Navbar bg="light" expand="lg">
+          <Navbar.Brand>
+            <Emoji>:house_with_garden: LFHT</Emoji>
+          </Navbar.Brand>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="mr-auto">
+              {menu.map(
+                (item, key) =>
+                  (user || item.login === false) && (
+                    <Nav.Link key={key} as={Link} to={item.link}>
+                      {item.label}
+                    </Nav.Link>
+                  )
+              )}
+            </Nav>
+            <Nav>
+              {user ? (
+                <>
+                  <Nav.Link
+                    as={Button}
+                    onClick={e => this.handleLogout(e, updateUser)}
+                    variant="link"
+                  >
+                    Logout
+                  </Nav.Link>
+                  <Nav.Link as={Link} to="/profile">
+                    {user.firstName} {user.lastName}
+                  </Nav.Link>
+                </>
+              ) : (
+                <NavDropdown
+                  title="Login"
+                  id="collasible-nav-dropdown"
+                  alignRight={true}
                 >
-                  Logout
-                </Nav.Link>
-                <Nav.Link as={Link} to="/profile">
-                  {user.firstName} {user.lastName}
-                </Nav.Link>
-              </>
-            ) : (
-              <NavDropdown
-                title="Login"
-                id="collasible-nav-dropdown"
-                alignRight={true}
-              >
-                <Form
-                  className="m-2"
-                  style={{ width: "300px" }}
-                  onSubmit={e => handleLogin(e, updateUser)}
-                >
-                  <Form.Group>
-                    <h5>Username:</h5>
-                    <Form.Control
-                      name="username"
-                      type="text"
-                      placeholder="Username"
-                    />
-                  </Form.Group>
-                  <Form.Group>
-                  <h5>Password:</h5>
-                    <Form.Control
-                      name="password"
-                      type="password"
-                      placeholder="Password"
-                    />
-                  </Form.Group>
-                  <Form.Group>
-                    <Button className="float-right" type="submit" size="sm">
-                      <Emoji>Login :sunglasses:</Emoji>
-                    </Button>
-                  </Form.Group>
-                </Form>
-              </NavDropdown>
-            )}
-          </Nav>
-        </Navbar.Collapse>
-      </Navbar>
-    </>
-  );
+                  <Form
+                    noValidate
+                    validated={validated}
+                    className="m-2"
+                    style={{ width: "300px" }}
+                    onSubmit={e => this.handleLogin(e, updateUser)}
+                  >
+                    <Form.Group>
+                      <h5>Username:</h5>
+                      <Form.Control
+                        required
+                        name="username"
+                        type="text"
+                        placeholder="Username"
+                      />
+                    </Form.Group>
+                    <Form.Group>
+                      <h5>Password:</h5>
+                      <Form.Control
+                        required
+                        name="password"
+                        type="password"
+                        placeholder="Password"
+                      />
+                    </Form.Group>
+                    <Form.Group>
+                      <ButtonToolbar className="float-right">
+                        <Button className="mx-1" as={Link} to="/sign-up">
+                          <Emoji>Register :memo:</Emoji>
+                        </Button>
+                        <Button className="mx-1" type="submit">
+                          <Emoji>Login :sunglasses:</Emoji>
+                        </Button>
+                      </ButtonToolbar>
+                    </Form.Group>
+                  </Form>
+                </NavDropdown>
+              )}
+            </Nav>
+          </Navbar.Collapse>
+        </Navbar>
+      </>
+    );
+  }
 }
 
 export default NavBar;
