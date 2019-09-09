@@ -41,6 +41,11 @@ class Landing extends Component {
       });
   };
 
+  saveHome() {
+    let data = this.state.listings;
+    
+  }
+
   render() {
     const { query, listings, loading } = this.state;
 
