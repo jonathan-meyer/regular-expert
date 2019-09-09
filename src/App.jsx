@@ -12,6 +12,7 @@ import Groups from "./pages/Groups";
 import Landing from "./pages/Landing";
 import NotFound from "./pages/NotFound";
 import SignUp from "./pages/SignUp";
+import ShareListing from "./pages/ShareListing";
 
 class App extends React.Component {
   constructor(props) {
@@ -59,6 +60,11 @@ class App extends React.Component {
               exact
               path="/"
               render={props => <Landing user={user} {...props} />}
+            />
+            <Route
+              exact
+              path="/share"
+              render={props => <ShareListing user={user} {...props} />}
             />
             <Route
               exact
