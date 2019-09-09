@@ -130,8 +130,9 @@ class Group extends Component {
       <Card>
         <div>The Chosen Listings</div>
         <ListGroup>
-          {this.state.listings.map(listing => (
+          {this.state.listings.map((listing,key) => (
             <Listing
+              key={key}
               photo={listing.photo}
               address={listing.address}
             />
