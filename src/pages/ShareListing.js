@@ -79,7 +79,15 @@ class ShareListing extends Component {
         .get("/api/group/mine")
         .then(res => res.data)
         .then(data => {
-          this.setState({ fetchingGroup: false, groups: data });
+          if (data.length === 0) {
+            this.setState({
+              error: "no Groups!",
+              fetchingGroup: false,
+              groups: []
+            });
+          } else {
+            this.setState({ fetchingGroup: false, groups: data });
+          }
           console.log({ groups: data });
         })
         .catch(error => {
