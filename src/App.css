@@ -1,0 +1,14 @@
+.banner {
+  width: 100%;
+  margin-bottom: 50px;
+}
+
+.content {
+  margin-left: 100px;
+  margin-right: 100px;
+  margin-bottom: 100px;
+}
+
+.form-label {
+  font-weight: bold;
+}

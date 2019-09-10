@@ -6,13 +6,16 @@ import Container from "react-bootstrap/Container";
 
 import NavBar from "./components/NavBar";
 
+import Auth from "./pages/Auth";
 import Group from "./pages/Group";
-import CreateGroup from "./pages/CreateGroup";
+import CreateEditGroup from "./pages/CreateEditGroup";
 import Groups from "./pages/Groups";
 import Landing from "./pages/Landing";
 import NotFound from "./pages/NotFound";
 import SignUp from "./pages/SignUp";
 import ShareListing from "./pages/ShareListing";
+
+import "./App.css";
 
 class App extends React.Component {
   constructor(props) {
@@ -23,7 +26,6 @@ class App extends React.Component {
     };
 
     this.getUser = this.getUser.bind(this);
-    this.componentDidMount = this.componentDidMount.bind(this);
     this.updateUser = this.updateUser.bind(this);
   }
 
@@ -53,7 +55,7 @@ class App extends React.Component {
 
     return (
       <Router>
-        <NavBar user={user} updateUser={this.updateUser} />
+        <NavBar user={user} updateuser={this.updateUser} />
         <Container className="my-2">
           <Switch>
             <Route
@@ -66,13 +68,39 @@ class App extends React.Component {
               path="/share/:listing_id/:property_id/:price/:address"
               render={props => <ShareListing user={user} {...props} />}
             />
+            <Route
+              exact
+              path="/login"
+              render={props => (
+                <Auth
+                  login
+                  user={user}
+                  updateuser={this.updateUser}
+                  {...props}
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/logout"
+              render={props => (
+                <Auth
+                  logout
+                  user={user}
+                  updateuser={this.updateUser}
+                  {...props}
+                />
+              )}
+            />
+            <Route
+              exact
               path="/sign-up"
               render={props => <SignUp user={user} {...props} />}
             />
             <Route
               exact
-              path={["/group/edit/:id", "/group/create"]}
-              render={props => <CreateGroup user={user} {...props} />}
+              path={["/group/edit/:id", "/group/edit", "/group/create"]}
+              render={props => <CreateEditGroup user={user} {...props} />}
             />
             <Route
               exact
