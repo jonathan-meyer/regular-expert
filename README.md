@@ -22,10 +22,6 @@ RAPIDAPI_KEY = <Rapid API Key>
 REDIS_URL = <Redis URL>
 ```
 
-## How To
-
-
-
 ## Reference
 
 - https://rapidapi.com/apidojo/api/realtor/details
