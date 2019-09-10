@@ -26,8 +26,7 @@ const GroupSchema = new Schema({
 
   listing: {
     type: Schema.Types.ObjectId,
-    ref: "Listing",
-    required: "A Listing is required"
+    ref: "Listing"
   },
 
   created: {
