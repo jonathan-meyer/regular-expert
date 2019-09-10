@@ -7,7 +7,9 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
 import ListingFull from "../components/ListingFull";
+import ListingSummary from "../components/ListingSummary";
 import Json from "../components/Json";
+import { Image } from "react-bootstrap";
 
 class ShareListing extends Component {
   state = {
@@ -20,7 +22,21 @@ class ShareListing extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    console.log("Submitted!");
+
+    const { group, listing } = this.state;
+    const data = { listing: listing._id };
+
+    console.log({ data });
+
+    axios
+      .put(`/api/listing/${group._id}`, data)
+      .then(res => res.data)
+      .then(data => {
+        console.log({ data });
+      })
+      .catch(err => {
+        console.log({ err });
+      });
   }
 
   handleChange = event => {
@@ -30,6 +46,25 @@ class ShareListing extends Component {
 
   handleDropdownListChange(group) {
     this.setState({ group });
+  }
+
+  getListing() {
+    const { error, listing, fetchingListing } = this.state;
+    const { match } = this.props;
+    const { id } = match.params;
+
+    if (!error && !fetchingListing && !listing && id) {
+      axios
+        .get(`/api/listing/${id}`)
+        .then(res => res.data)
+        .then(data => {
+          this.setState({ fetchingListing: false, listing: data });
+        })
+        .catch(error => {
+          this.setState({ error, fetchingListing: false, listing: null });
+          console.log(error);
+        });
+    }
   }
 
   getGroups() {
@@ -59,9 +94,14 @@ class ShareListing extends Component {
     this.getGroups();
   }
 
+  componentDidMount() {
+    this.getListing();
+    this.getGroups();
+  }
+
   render() {
     const { group, groups, listing, fetchingGroup } = this.state;
-    const { match } = this.props;
+    const { match, user } = this.props;
 
     return (
       <div
@@ -72,15 +112,15 @@ class ShareListing extends Component {
           marginBottom: "100px"
         }}
       >
-        <ListingFull {...listing} />
+        {listing && <Image src={listing.mls.photo.href} thumbnail></Image>}
         <Form onSubmit={this.handleSubmit}>
           <Form.Group controlId="groups">
             <Form.Label>Select a Group:</Form.Label>
             <DropdownList
               id="group"
-              textField={i => i.name}
+              textField="name"
               valueField="_id"
-              value={group}
+              value={group.name}
               onChange={items => this.handleDropdownListChange(items)}
               data={groups}
               busy={fetchingGroup}
@@ -91,11 +131,10 @@ class ShareListing extends Component {
             type="submit"
             onClick={e => this.handleSubmit(e)}
           >
-            Start Collaborating!
+            Add To Group.
           </Button>
         </Form>
-        <Json title="match">{match}</Json>
-        <Json title="state">{this.state}</Json>
+        <Json title="group">{group}</Json>
       </div>
     );
   }

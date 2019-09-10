@@ -56,23 +56,30 @@ module.exports = Collection => {
   const update = (req, res) => {
     const changedEntry = req.body;
 
-    Collection.update({ _id: req.params._id }, { $set: changedEntry }, e => {
-      if (e) {
-        res.status(500).send(e);
-        console.log(e);
-      } else {
-        res.sendStatus(200);
+    console.log({ _id: req.params._id }, { $set: changedEntry });
+
+    Collection.updateOne(
+      { _id: req.params._id },
+      { $set: changedEntry },
+      (e, response) => {
+        if (e) {
+          res.status(500).send(e);
+          console.log(e);
+        } else {
+          console.log({ response });
+          res.status(200).json(response);
+        }
       }
-    });
+    );
   };
 
   // ======
   // Remove
   // ======
   const remove = (req, res) => {
-    Collection.remove({ _id: req.params._id }, e => {
+    Collection.remove({ _id: req.params._id }, (e, data) => {
       if (e) res.status(500).send(e);
-      else res.sendStatus(200);
+      else res.send(200).json(data);
     });
   };
 
