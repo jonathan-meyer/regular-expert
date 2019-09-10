@@ -63,7 +63,7 @@ class App extends React.Component {
             />
             <Route
               exact
-              path="/share/:listing_id/:property_id"
+              path="/share/:listing_id/:property_id/:price/:address/:photo"
               render={props => <ShareListing user={user} {...props} />}
             />
             <Route
