@@ -4,6 +4,7 @@ import ListGroup from "react-bootstrap/ListGroup";
 import Image from "react-bootstrap/Image";
 
 export default function({ photo, address, price, beds, baths, sqft }) {
+  console.log(photo)
   return (
     <ListGroup.Item>
       <Image src={photo} thumbnail width={240} className="float-left m-1" />
