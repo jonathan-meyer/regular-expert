@@ -75,21 +75,6 @@ class SignUp extends Component {
       });
   };
 
-  bannerStyle = {
-    width: "100%",
-    marginBottom: "50px"
-  };
-
-  signup = {
-    marginLeft: '100px',
-    marginRight: '100px',
-    marginBottom: '100px'
-  }
-
-  inputText = {
-    fontWeight: "bold"
-  };
-
   closeModal() {
     this.setState({ open: false });
   }
@@ -104,83 +89,78 @@ class SignUp extends Component {
             style={this.customStyles}
             ariaHideApp={false}
           >
-            <h1 id='heading'>User Added!</h1>
+            <h1 id="heading">User Added!</h1>
             <br></br>
-            <div id='full_description'>
-              <Button variant='danger' onClick={this.closeModal}>
+            <div id="full_description">
+              <Button variant="danger" onClick={this.closeModal}>
                 Close
               </Button>
             </div>
           </Modal>
         )}
-        <Container style={this.bannerStyle}>
-          <div className='banner'>
-            <img src={banner} style={this.bannerStyle} alt='banner'></img>
+        <Container className="banner">
+          <div className="banner">
+            <img src={banner} className="banner" alt="banner"></img>
           </div>
-          <div className='Signup' style={this.signup}>
+          <div className="content">
             <Form onSubmit={this.handleSubmit}>
-              <FormGroup controlId='firstName'>
-                <FormLabel style={this.inputText}>First Name</FormLabel>
+              <FormGroup controlId="firstName">
+                <FormLabel>First Name:</FormLabel>
                 <FormControl
                   autoFocus
-                  type='firstName'
-                  placeholder='First Name'
+                  type="input"
                   value={this.state.firstName}
                   onChange={this.handleChange}
-                  autoComplete='off'
+                  autoComplete="off"
                 />
               </FormGroup>
-              <FormGroup controlId='lastName'>
-                <FormLabel style={this.inputText}>Last Name</FormLabel>
+              <FormGroup controlId="lastName">
+                <FormLabel>Last Name:</FormLabel>
                 <FormControl
                   autoFocus
-                  type='lastName'
-                  placeholder='Last Name'
+                  type="input"
                   value={this.state.lastName}
                   onChange={this.handleChange}
-                  autoComplete='off'
+                  autoComplete="off"
                 />
               </FormGroup>
-              <FormGroup controlId='username'>
-                <FormLabel style={this.inputText}>Username</FormLabel>
+              <FormGroup controlId="username">
+                <FormLabel>Username:</FormLabel>
                 <FormControl
                   autoFocus
-                  type='username'
-                  placeholder='Username'
+                  type="input"
                   value={this.state.username}
                   onChange={this.handleChange}
-                  autoComplete='off'
+                  autoComplete="off"
                 />
               </FormGroup>
-              <FormGroup controlId='password'>
-                <FormLabel style={this.inputText}>Password</FormLabel>
+              <FormGroup controlId="password">
+                <FormLabel>Password:</FormLabel>
                 <FormControl
                   value={this.state.password}
                   onChange={this.handleChange}
-                  placeholder='Password'
-                  type='password'
-                  autoComplete='off'
+                  type="password"
+                  autoComplete="off"
                 />
               </FormGroup>
-              <FormGroup controlId='confirmPassword'>
-                <FormLabel style={this.inputText}>Confirm Password</FormLabel>
+              <FormGroup controlId="confirmPassword">
+                <FormLabel>Confirm Password:</FormLabel>
                 <FormControl
                   value={this.state.confirmPassword}
                   onChange={this.handleChange}
-                  type='password'
-                  placeholder='Confirm Password'
-                  autoComplete='off'
+                  type="password"
+                  autoComplete="off"
                 />
               </FormGroup>
               <Button
-                variant='success'
+                variant="success"
                 disabled={!this.validateForm()}
-                type='submit'
-                text='Signup'
-                loadingtext='Signing up…'
+                type="submit"
+                text="Signup"
+                loadingtext="Signing up…"
                 onClick={this.openModal}
               >
-                Sign Up
+                Sign Up:
               </Button>
             </Form>
           </div>
