@@ -8,8 +8,6 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Alert from "react-bootstrap/Alert";
 
-import Json from "../components/Json";
-
 import banner from "../assets/college.jpg";
 
 class CreateEditGroup extends Component {
@@ -122,7 +120,7 @@ class CreateEditGroup extends Component {
 
   render() {
     const { user } = this.props;
-    const { form, group, users, fetchingUsers } = this.state;
+    const { form, users, fetchingUsers } = this.state;
 
     return (
       <Container>
@@ -163,11 +161,6 @@ class CreateEditGroup extends Component {
             </Button>
           </Form>
         </div>
-        <Alert variant="info">
-          Debug:
-          <Json title="User">{user}</Json>
-          <Json title="Form Data">{form}</Json>
-        </Alert>
       </Container>
     );
   }

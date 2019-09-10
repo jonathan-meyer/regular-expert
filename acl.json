@@ -38,6 +38,11 @@
         "action": "allow"
       },
       {
+        "resource": "api/listing/*",
+        "methods": ["GET"],
+        "action": "allow"
+      },
+      {
         "resource": "api/*",
         "methods": "*",
         "action": "deny"

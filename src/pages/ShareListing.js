@@ -1,21 +1,21 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-import Multiselect from "react-widgets/lib/Multiselect";
+import DropdownList from "react-widgets/lib/DropdownList";
 
-import {
-  Form,
-  FormGroup,
-  ListGroup,
-  FormControl,
-  FormLabel,
-  Button
-} from "react-bootstrap";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+
+import ListingFull from "../components/ListingFull";
+import Json from "../components/Json";
 
 class ShareListing extends Component {
   state = {
+    group: {},
     groups: [],
-    fetchingGroup: false
+    listing: null,
+    fetchingGroup: false,
+    fetchingListing: false
   };
 
   handleSubmit(e) {
@@ -24,74 +24,78 @@ class ShareListing extends Component {
   }
 
   handleChange = event => {
-    this.setState({
-      [event.target.id]: event.target.value
-    });
+    const { id, value } = event.target;
+    this.setState({ [id]: value });
   };
 
-  componentDidMount() {
-    const { groups, fetchingGroup } = this.state;
-    const { match } = this.props;
+  handleDropdownListChange(group) {
+    this.setState({ group });
+  }
 
-    if (match && !fetchingGroup && groups.length === 0) {
+  getGroups() {
+    const { error, groups, fetchingGroup } = this.state;
+
+    if (!error && !fetchingGroup && groups.length === 0) {
       console.log("getting groups");
 
       this.setState({ fetchingGroup: true });
 
       axios
-        .get("/api/groups/mine")
+        .get("/api/group/mine")
         .then(res => res.data)
         .then(data => {
           this.setState({ fetchingGroup: false, groups: data });
           console.log({ groups: data });
         })
-        .catch(err => {
-          this.setState({ fetchingGroup: false, groups: [] });
-          console.log(err);
+        .catch(error => {
+          this.setState({ error, fetchingGroup: false, groups: [] });
+          console.log(error);
         });
     }
   }
 
- 
-  sharingStyle = {
-    marginLeft: "100px",
-    marginRight: "100px",
-    marginBottom: "100px"
-  };
+  componentDidUpdate() {
+    this.getListing();
+    this.getGroups();
+  }
 
   render() {
-    const {group, fetchingGroup} = this.state;
+    const { group, groups, listing, fetchingGroup } = this.state;
     const { match } = this.props;
+
     return (
-      <div className='shareHome' style={this.sharingStyle}>
-        <pre>{JSON.stringify(match, null, 2)}</pre>
-        <ListGroup.Item>
-          <h5 style={{ fontStyle: "italic" }}>{match.params.address}</h5>
-          <p>{match.params.price}</p>
-        </ListGroup.Item>
-        <br></br>
+      <div
+        className="shareHome"
+        style={{
+          marginLeft: "100px",
+          marginRight: "100px",
+          marginBottom: "100px"
+        }}
+      >
+        <ListingFull {...listing} />
         <Form onSubmit={this.handleSubmit}>
-        <Form.Group controlId="groups">
-            <Form.Label>Groups:</Form.Label>
-            <Multiselect
-            id="groups"
-            textField={i => `${i.firstName} ${i.lastName}`}
-            valueField="_id"
-            value={group}
-            onChange={items => this.handleMultiSelectChange(items)}
-            data={group}
-            busy={fetchingGroup}
-            ></Multiselect>
-        </Form.Group>
+          <Form.Group controlId="groups">
+            <Form.Label>Select a Group:</Form.Label>
+            <DropdownList
+              id="group"
+              textField={i => i.name}
+              valueField="_id"
+              value={group}
+              onChange={items => this.handleDropdownListChange(items)}
+              data={groups}
+              busy={fetchingGroup}
+            ></DropdownList>
+          </Form.Group>
           <Button
-            variant='success'
-            type='submit'
-            text='Share'
-            onClick={this.handleSubmit}
+            variant="success"
+            type="submit"
+            onClick={e => this.handleSubmit(e)}
           >
             Start Collaborating!
           </Button>
         </Form>
+        <Json title="match">{match}</Json>
+        <Json title="state">{this.state}</Json>
       </div>
     );
   }

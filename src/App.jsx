@@ -14,6 +14,7 @@ import Landing from "./pages/Landing";
 import NotFound from "./pages/NotFound";
 import SignUp from "./pages/SignUp";
 import ShareListing from "./pages/ShareListing";
+import ViewListing from "./pages/ViewListing";
 
 import "./App.css";
 
@@ -65,7 +66,12 @@ class App extends React.Component {
             />
             <Route
               exact
-              path="/share/:listing_id/:property_id/:price/:address"
+              path={["/listing/:property_id/:listing_id"]}
+              render={props => <ViewListing user={user} {...props} />}
+            />
+            <Route
+              exact
+              path={["/share/:_id"]}
               render={props => <ShareListing user={user} {...props} />}
             />
             <Route

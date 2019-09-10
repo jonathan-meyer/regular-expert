@@ -1,14 +1,14 @@
 import React, { Component } from "react";
-import {
-  Card,
-  Form,
-  InputGroup,
-  FormControl,
-  Button,
-  ListGroup
-} from "react-bootstrap";
-import Listing from "../components/Listing";
+
+import Card from "react-bootstrap/Card";
+import Form from "react-bootstrap/Form";
+import InputGroup from "react-bootstrap/InputGroup";
+import Button from "react-bootstrap/Button";
+import ListGroup from "react-bootstrap/ListGroup";
+
+import ListingSummary from "../components/ListingSummary";
 import API from "../utils/API";
+
 import "./landing.css";
 import banner from "../assets/cover.jpg";
 
@@ -24,11 +24,10 @@ class Landing extends Component {
     this.setState({ [id]: value });
   }
 
-  handleFormSubmit = e => {
+  handleFormSubmit(e) {
     e.preventDefault();
-    const { query } = this.state;
 
-    console.log({ query });
+    const { query } = this.state;
 
     API.searchListings(query)
       .then(data => {
@@ -39,68 +38,59 @@ class Landing extends Component {
         this.setState({ loading: false });
         console.log({ err });
       });
-  };
-
-  saveHome() {
-    let data = this.state.listings;
-
   }
 
   render() {
     const { query, listings, loading } = this.state;
 
     return (
-      <>
-        <Card className='card-img-underlay'>
-          <div className='banner'>
-            <img src={banner} alt='banner' className='banner'></img>
-          </div>
-          <Card.ImgOverlay>
-            <Card id='card'>
-              <Card.Header>
-                <h1 className='text-center'>
-                  Finding Your Dream Home Starts Here
-                </h1>
-              </Card.Header>
-              <Card.Body>
-                <Form.Label>
-                  Looking for a new home? Want to collaborate with others on the
-                  properties you find interesting? Start your search now!
-                </Form.Label>
+      <Card className="card-img-underlay">
+        <div className="banner">
+          <img src={banner} alt="banner" className="banner"></img>
+        </div>
+        <Card.ImgOverlay>
+          <Card id="card">
+            <Card.Header>
+              <h1 className="text-center">
+                Finding Your Dream Home Starts Here
+              </h1>
+            </Card.Header>
+            <Card.Body>
+              <Form.Label>
+                Looking for a new home? Want to collaborate with others on the
+                properties you find interesting? Start your search now!
+              </Form.Label>
 
-                <Form onSubmit={e => this.handleFormSubmit(e)}>
-                  <InputGroup className='mb-3'>
-                    <FormControl
-                      placeholder="Enter a location..."
-                      aria-label="location"
-                      aria-describedby='basic-addon2'
-                      location={this.state.location}
-                      type='text'
-                      id='query'
-                      value={query}
-                      onChange={e => this.changeHandler(e)}
-                    />
-                    <InputGroup.Append>
-                      <Button
-                        variant='dark'
-                        onClick={e => this.handleFormSubmit(e)}
-                      >
-                        Find Home!
-                      </Button>
-                    </InputGroup.Append>
-                  </InputGroup>
-                </Form>
-              </Card.Body>
-            </Card>
-            {loading && <span>loading...</span>}
-            <ListGroup id='listgroup'>
-              {listings.map((listing, key) => (
-                <Listing key={key} {...listing} />
-              ))}
-            </ListGroup>
-          </Card.ImgOverlay>
-        </Card>
-      </>
+              <Form onSubmit={e => this.handleFormSubmit(e)}>
+                <InputGroup className="mb-3">
+                  <Form.Control
+                    placeholder="Enter a location..."
+                    aria-label="location"
+                    aria-describedby="basic-addon2"
+                    type="text"
+                    id="query"
+                    value={query}
+                    onChange={e => this.changeHandler(e)}
+                  />
+                  <InputGroup.Append>
+                    <Button variant="dark" type="submit">
+                      Find Home!
+                    </Button>
+                  </InputGroup.Append>
+                </InputGroup>
+              </Form>
+            </Card.Body>
+          </Card>
+          {loading && <span>loading...</span>}
+          <ListGroup>
+            {listings.map((listing, key) => (
+              <ListGroup.Item key={key}>
+                <ListingSummary {...listing} share />
+              </ListGroup.Item>
+            ))}
+          </ListGroup>
+        </Card.ImgOverlay>
+      </Card>
     );
   }
 }

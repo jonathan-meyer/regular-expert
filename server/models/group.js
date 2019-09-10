@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const GroupSchema = new Schema({
   name: {
     type: String,
-    required: "Group Name is required."
+    required: "Name is required."
   },
 
   description: {
@@ -14,7 +14,7 @@ const GroupSchema = new Schema({
   owner: {
     type: Schema.Types.ObjectId,
     ref: "User",
-    required: "you need an UserID"
+    required: "An Owner is required"
   },
 
   users: [
@@ -23,6 +23,12 @@ const GroupSchema = new Schema({
       ref: "User"
     }
   ],
+
+  listing: {
+    type: Schema.Types.ObjectId,
+    ref: "Listing",
+    required: "A Listing is required"
+  },
 
   created: {
     type: Date,
