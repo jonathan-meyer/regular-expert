@@ -52,10 +52,6 @@ class ShareListing extends Component {
     }
   }
 
-  componentDidUpdate() {
-    this.getGroups();
-  }
-
  
   sharingStyle = {
     marginLeft: "100px",
@@ -81,7 +77,7 @@ class ShareListing extends Component {
             id="groups"
             textField={i => `${i.firstName} ${i.lastName}`}
             valueField="_id"
-            value={group.members}
+            value={group}
             onChange={items => this.handleMultiSelectChange(items)}
             data={group}
             busy={fetchingGroup}
