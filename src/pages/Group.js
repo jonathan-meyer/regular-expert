@@ -2,8 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
-import Json from "../components/Json";
-import Listing from "../components/Listing";
+import ListingSummary from "../components/ListingSummary";
 
 class Group extends Component {
   constructor(props) {
@@ -15,12 +14,18 @@ class Group extends Component {
   }
 
   componentDidUpdate() {
-    const { group, fetchingGroup, fetchingListing, listings } = this.state;
+    const {
+      error,
+      group,
+      fetchingGroup,
+      fetchingListing,
+      listings
+    } = this.state;
     const { match, user } = this.props;
 
     console.log("componentDidUpdate");
 
-    if (user && !fetchingGroup && !group.name && match.params.id) {
+    if (!error && user && !fetchingGroup && !group.name && match.params.id) {
       this.setState({ fetchingGroup: true });
 
       axios
@@ -31,39 +36,48 @@ class Group extends Component {
         .then(data => {
           this.setState({ fetchingGroup: false, group: data });
         })
-        .catch(err => {
-          this.setState({ fetchingGroup: false, group: {} });
-          console.log(err);
+        .catch(error => {
+          this.setState({ error, fetchingGroup: false, group: {} });
+          console.log(error);
         });
     }
-    if (user && !fetchingListing && listings.length === 0 && match.params.id) {
+
+    if (
+      !error &&
+      user &&
+      !fetchingListing &&
+      listings.length === 0 &&
+      match.params.id
+    ) {
       axios
         .get(`/api/listing/group/${match.params.id}`)
         .then(res => res.data)
         .then(data => {
           this.setState({ fetchingListing: false, listings: data });
         })
-        .catch(err => {
-          this.setState({ fetchingListing: false, listings: [] });
-          console.log(err);
+        .catch(error => {
+          this.setState({ error, fetchingListing: false, listings: [] });
+          console.log(error);
         });
     }
   }
+
   render() {
-    const { group, listings } = this.state;
+    const { listings } = this.state;
+
     return (
       <Card>
         <div>The Chosen Listings</div>
         <ListGroup>
-          {this.state.listings.map((listing, key) => (
-            <Listing
-              key={key}
-              photo={listing.mls.photo && listing.mls.photo.href}
-              address={listing.address}
-            />
+          {listings.map((listing, key) => (
+            <ListGroup.Item key={key}>
+              <ListingSummary
+                photo={listing.mls.photo && listing.mls.photo.href}
+                address={listing.address}
+              />
+            </ListGroup.Item>
           ))}
         </ListGroup>
-        
       </Card>
     );
   }

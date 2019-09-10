@@ -1,18 +1,12 @@
 import React, { Component } from "react";
-import {
-  Card,
-  Button,
-  Table,
-  Container,
-  Col,
-  Row,
-  ListGroup,
-  ListGroupItem
-} from "react-bootstrap";
+
+import Table from "react-bootstrap/Table";
+import Container from "react-bootstrap/Container";
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
 
 class Groups extends Component {
   render() {
-    const { user, group } = this.props;
     return (
       <>
         <div>
