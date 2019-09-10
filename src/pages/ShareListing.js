@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import axios from "axios";
+
+import Multiselect from "react-widgets/lib/Multiselect";
 
 import {
   Form,
@@ -11,6 +14,7 @@ import {
 
 class ShareListing extends Component {
   state = {
+    groups: [],
     fetchingGroup: false
   };
 
@@ -26,29 +30,33 @@ class ShareListing extends Component {
   };
 
   componentDidMount() {
-    const { fetchingGroup } = this.state;
+    const { groups, fetchingGroup } = this.state;
     const { match } = this.props;
 
-    console.log("componentDidMount");
+    if (match && !fetchingGroup && groups.length === 0) {
+      console.log("getting groups");
 
-    if (!fetchingGroup && !group.name && match.params.id) {
       this.setState({ fetchingGroup: true });
 
       axios
-        .get(`/api/group/`, {
-          params: { populate: ["users"] }
-        })
+        .get("/api/groups/mine")
         .then(res => res.data)
         .then(data => {
-          this.setState({ fetchingGroup: false, group: data });
+          this.setState({ fetchingGroup: false, groups: data });
+          console.log({ groups: data });
         })
         .catch(err => {
-          this.setState({ fetchingGroup: false, group: {} });
+          this.setState({ fetchingGroup: false, groups: [] });
           console.log(err);
         });
     }
   }
 
+  componentDidUpdate() {
+    this.getGroups();
+  }
+
+ 
   sharingStyle = {
     marginLeft: "100px",
     marginRight: "100px",
@@ -56,6 +64,7 @@ class ShareListing extends Component {
   };
 
   render() {
+    const {group, fetchingGroup} = this.state;
     const { match } = this.props;
     return (
       <div className='shareHome' style={this.sharingStyle}>
@@ -66,17 +75,18 @@ class ShareListing extends Component {
         </ListGroup.Item>
         <br></br>
         <Form onSubmit={this.handleSubmit}>
-          <FormGroup controlId='username'>
-            <FormLabel>Who do you want to share this home with?</FormLabel>
-            <FormControl
-              autoFocus
-              type='groupName'
-              placeholder='Group Name'
-              value={""}
-              onChange={e => this.handleChange(e)}
-              autoComplete='off'
-            />
-          </FormGroup>
+        <Form.Group controlId="groups">
+            <Form.Label>Groups:</Form.Label>
+            <Multiselect
+            id="groups"
+            textField={i => `${i.firstName} ${i.lastName}`}
+            valueField="_id"
+            value={group.members}
+            onChange={items => this.handleMultiSelectChange(items)}
+            data={group}
+            busy={fetchingGroup}
+            ></Multiselect>
+        </Form.Group>
           <Button
             variant='success'
             type='submit'
