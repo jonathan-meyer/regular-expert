@@ -1,51 +1,66 @@
 import React, { Component } from "react";
+import axios from "axios";
+import moment from "moment";
 
 import Table from "react-bootstrap/Table";
 import Container from "react-bootstrap/Container";
-import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
 
 class Groups extends Component {
+  state = { groups: [], fetching: false };
+
+  getGroups() {
+    const { error, fetching, groups } = this.state;
+
+    if (!error && !fetching && groups.length === 0) {
+      axios
+        .get("/api/group/mine")
+        .then(res => res.data)
+        .then(groups => {
+          this.setState({ groups });
+        })
+        .catch(error => {
+          this.setState({ error });
+        });
+    }
+  }
+
+  componentDidUpdate() {
+    this.getGroups();
+  }
+
+  componentDidMount() {
+    this.getGroups();
+  }
+  
   render() {
+    const { groups } = this.state;
+
     return (
-      <>
-        <div>
-          <Container>
-            <h1>Your Groups</h1>
-            <br></br>
-            <Row>
-              <Col width="100%">
-                <Table striped bordered hover width="100%">
-                  <thead>
-                    <tr>
-                      <th>Group Name</th>
-                      <th>Last Collaboration Date</th>
-                      <th># of Collaborators</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Roommates</td>
-                      <td>9/6/2019</td>
-                      <td>2</td>
-                    </tr>
-                    <tr>
-                      <td>Friends</td>
-                      <td>9/6/2019</td>
-                      <td>14</td>
-                    </tr>
-                    <tr>
-                      <td>Family</td>
-                      <td>9/1/2019</td>
-                      <td>8</td>
-                    </tr>
-                  </tbody>
-                </Table>
-              </Col>
-            </Row>
-          </Container>
-        </div>
-      </>
+      <div className="content">
+        <Container>
+          <h1>Your Groups</h1>
+          <br></br>
+
+          <Table striped bordered hover width="100%">
+            <thead>
+              <tr>
+                <th>Group Name</th>
+                <th>Last Collaboration Date</th>
+                <th># of Collaborators</th>
+              </tr>
+            </thead>
+            <tbody>
+              {groups.map((group, key) => (
+                <tr key={key}>
+                  <td>{group.name}</td>
+                  <td>{moment(group.created).calendar()}</td>
+                  <td>{group.users.length}</td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </Container>
+      </div>
     );
   }
 }
