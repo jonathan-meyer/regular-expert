@@ -12,6 +12,7 @@ import Groups from "./pages/Groups";
 import Landing from "./pages/Landing";
 import NotFound from "./pages/NotFound";
 import SignUp from "./pages/SignUp";
+import ShareListing from "./pages/ShareListing";
 
 class App extends React.Component {
   constructor(props) {
@@ -62,6 +63,9 @@ class App extends React.Component {
             />
             <Route
               exact
+              path="/share/:listing_id/:property_id/:price/:address"
+              render={props => <ShareListing user={user} {...props} />}
+            />
               path="/sign-up"
               render={props => <SignUp user={user} {...props} />}
             />

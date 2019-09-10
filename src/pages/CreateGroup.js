@@ -132,7 +132,7 @@ class CreateGroup extends Component {
                   <Form.Label>Members:</Form.Label>
                   <Multiselect
                     id="members"
-                    textField={i => `${i.firstName} ${i.lastName}`}
+                    textField={i => {}}
                     valueField="_id"
                     value={group.members}
                     onChange={items => this.handleMultiSelectChange(items)}
