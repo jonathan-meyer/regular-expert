@@ -66,13 +66,6 @@ class App extends React.Component {
               path="/share/:listing_id/:property_id/:price/:address"
               render={props => <ShareListing user={user} {...props} />}
             />
-            <Route
-              exact
-              path="/group/:id"
-              render={props => <Group user={user} {...props} />}
-            />
-            <Route
-              exact
               path="/sign-up"
               render={props => <SignUp user={user} {...props} />}
             />
@@ -80,6 +73,11 @@ class App extends React.Component {
               exact
               path={["/group/edit/:id", "/group/create"]}
               render={props => <CreateGroup user={user} {...props} />}
+            />
+            <Route
+              exact
+              path="/group/:id"
+              render={props => <Group user={user} {...props} />}
             />
             <Route
               exact

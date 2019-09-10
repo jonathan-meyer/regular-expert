@@ -14,34 +14,14 @@ const ListingSchema = new Schema({
     required: "Group Id is required"
   },
 
-  street: {
-    type: String,
-    required: "Street is required."
+  property_id: {
+    type: Schema.Types.String,
+    required: "A Property ID from realtor.com is required."
   },
 
-  city: {
-    type: String,
-    required: "City is required."
-  },
-
-  state: {
-    type: String,
-    required: "State is required."
-  },
-
-  zip: {
-    type: String,
-    required: "Postal Code is required."
-  },
-
-  country: {
-    type: String,
-    default: "USA"
-  },
-
-  description: {
-    type: String,
-    required: "Description is required."
+  listing_id: {
+    type: Schema.Types.String,
+    required: "A Listing ID from realtor.com is required."
   },
 
   created: {
