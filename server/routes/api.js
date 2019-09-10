@@ -52,7 +52,7 @@ router.use("/group/mine", (req, res) => {
 
 router.use("/group", crud(Group));
 
-router.use("/listing/group/:id", (req, res) => {
+router.get("/listing/group/:id", (req, res) => {
   Listing.find({ group: req.params.id }, (err, listings) => {
     if (err) {
       res.status(500).json(err);
@@ -64,7 +64,7 @@ router.use("/listing/group/:id", (req, res) => {
   });
 });
 
-router.use("/listing/:property_id/:listing_id", (req, res) => {
+router.get("/listing/:property_id/:listing_id", (req, res) => {
   const { user, property_id, listing_id } = req.params;
 
   Listing.findOne({ property_id, listing_id })
@@ -81,17 +81,18 @@ router.use("/listing/:property_id/:listing_id", (req, res) => {
       console.log({ err });
       res.status(500).json(err.message);
     });
+});
 
-  // , (err, listings) => {
-  //   if (err) {
-  //   } else {
-  //     if (listings.length > 0) {
-  //       getRealtorListing(listings[0]).then(data => res.json(data));
-  //     } else {
-  //       res.sendStatus(404);
-  //     }
-  //   }
-  // });
+router.get("/listing/:id", (req, res) => {
+  const { user, id } = req.params;
+
+  Listing.findById(id)
+    .exec()
+    .then(listing => getRealtorListing(listing).then(data => res.json(data)))
+    .catch(err => {
+      console.log({ err });
+      res.status(500).json(err.message);
+    });
 });
 
 router.use("/listing", crud(Listing));

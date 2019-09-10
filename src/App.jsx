@@ -71,7 +71,7 @@ class App extends React.Component {
             />
             <Route
               exact
-              path={["/share/:_id"]}
+              path={["/share/:id"]}
               render={props => <ShareListing user={user} {...props} />}
             />
             <Route
